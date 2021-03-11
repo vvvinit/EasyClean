@@ -1,0 +1,14 @@
+<vector android:height="50dp" android:viewportHeight="128"
+    android:viewportWidth="128" android:width="50dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="@color/hover" android:pathData="M101.1,105.6C93.7,92.7 79.9,84 64,84h0c-15.9,0 -29.7,8.7 -37.1,21.6L27,109h74L101.1,105.6z"/>
+    <path android:fillColor="@color/accent" android:pathData="M78.8,89.7c-0.3,0 -0.7,-0.1 -1,-0.2c-4.4,-1.6 -9,-2.5 -13.8,-2.5c-1.7,0 -3,-1.3 -3,-3s1.3,-3 3,-3c5.5,0 10.8,1 15.9,2.8c1.6,0.6 2.3,2.3 1.8,3.9C81.2,88.9 80,89.7 78.8,89.7z"/>
+    <path android:fillColor="@color/accent"
+        android:pathData="M26.9,108.6c-0.5,0 -1,-0.1 -1.5,-0.4c-1.4,-0.8 -1.9,-2.6 -1.1,-4.1C32.4,89.9 47.6,81 64,81c1.7,0 3,1.3 3,3s-1.3,3 -3,3c-14.2,0 -27.4,7.7 -34.5,20.1C29,108 28,108.6 26.9,108.6z"/>
+    <path android:fillColor="@color/hover" android:pathData="M64,30A20,20 0,1 0,64 70A20,20 0,1 0,64 30Z"/>
+    <path android:fillColor="@color/accent"
+        android:pathData="M64,73c-12.7,0 -23,-10.3 -23,-23s10.3,-23 23,-23s23,10.3 23,23S76.7,73 64,73zM64,33c-9.4,0 -17,7.6 -17,17s7.6,17 17,17s17,-7.6 17,-17S73.4,33 64,33z"/>
+    <path android:fillColor="@color/hover" android:pathData="M107.9,109h-14c-1.7,0 -3,-1.3 -3,-3s1.3,-3 3,-3h14c1.7,0 3,1.3 3,3S109.6,109 107.9,109z"/>
+    <path android:fillColor="@color/accent"
+        android:pathData="M119,94h-1.1c0,-0.2 0.1,-0.3 0.1,-0.5V85c0,-7.7 -6.3,-14 -14,-14s-14,6.3 -14,14v9h-1c-2.8,0 -5,2.2 -5,5v7c0,11 9,20 20,20s20,-9 20,-20v-7C124,96.2 121.8,94 119,94zM96,94v-9c0,-4.4 3.6,-8 8,-8s8,3.6 8,8v8.5c0,0.2 0,0.3 0.1,0.5H96z"/>
+    <path android:fillColor="@color/hover" android:pathData="M104,110.7c-1.7,0 -3,-1.3 -3,-3v-0.2c0,-1.7 1.3,-3 3,-3s3,1.3 3,3v0.2C107,109.4 105.7,110.7 104,110.7z"/>
+</vector>
