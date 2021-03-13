@@ -15,6 +15,13 @@ public class MainActivity extends AppCompatActivity {
     static final int ADMIN_LOGIN = 2;
     static final int CLEANER_LOGIN = 3;
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 intent.putExtra("loginType", ADMIN_LOGIN);
                 startActivity(intent);
+
             }
         });
 

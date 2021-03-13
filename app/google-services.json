@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "16498016959",
+    "project_id": "easyclean-se",
+    "storage_bucket": "easyclean-se.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16498016959:android:f5512cb564ebd13fff7c0a",
+        "android_client_info": {
+          "package_name": "com.lithium.easyclean"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "16498016959-kk75jg5islm67g0pmgbbh4sjafm7jlfj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lithium.easyclean",
+            "certificate_hash": "e6c895266956854b5b6a3e5cada1cc37548bc1cc"
+          }
+        },
+        {
+          "client_id": "16498016959-q9c7vbdbgj5upobfgmaku83tlnb5u32l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9dqPlUm9hC6dUecxyV5KiGwlKIf1YIJQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "16498016959-q9c7vbdbgj5upobfgmaku83tlnb5u32l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

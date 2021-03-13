@@ -31,6 +31,24 @@
             android:layout_below="@id/login_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/layoutNameInput"
+            android:hint="Full Name"
+            android:textColorHint="@color/background">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editTextName"
+                android:background="@color/secondary_text"
+                android:textColor="@color/background"
+                android:imeOptions="actionNext"
+                android:layout_marginBottom="8dp"
+                android:inputType="text"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_below="@id/layoutNameInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/layoutUsernameInput"
             android:hint="@string/username"
             android:textColorHint="@color/background">
@@ -66,7 +84,7 @@
 
         <ImageButton
             android:layout_marginTop="12dp"
-            android:id="@+id/login_button"
+            android:id="@+id/sign_up_button"
             android:layout_below="@id/layoutPasswordInput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
