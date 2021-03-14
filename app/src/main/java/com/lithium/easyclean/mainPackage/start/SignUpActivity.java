@@ -24,6 +24,9 @@ public class SignUpActivity extends AppCompatActivity {
     private String email;
     private String password;
     private String name;
+    ImageButton loginButton;
+    TextInputEditText nameEditText;
+    TextInputEditText passwordEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,20 +34,26 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        Intent intent = getIntent();
+        email = intent.getStringExtra("email");
 
+        mAuth = FirebaseAuth.getInstance();
+
+        loginButton = findViewById(R.id.login_button);
+        nameEditText = findViewById(R.id.editTextName);
+        passwordEditText = findViewById(R.id.editTextPassword);
 
         ImageButton signUp = findViewById(R.id.sign_up_button);
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                TextInputEditText emailInput = findViewById(R.id.editTextUsername);
+
                 TextInputEditText passwordInput = findViewById(R.id.editPasswordValue);
                 TextInputEditText nameInput = findViewById(R.id.editTextName);
-                if(emailInput!=null&&passwordInput!=null) {
-                    email = emailInput.getText().toString();
-                    password = passwordInput.getText().toString();
+                if(nameInput!=null&&passwordInput!=null) {
                     name = nameInput.getText().toString();
+                    password = passwordInput.getText().toString();
                     Toast.makeText(SignUpActivity.this, email+password, Toast.LENGTH_SHORT).show();
                     mAuth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {

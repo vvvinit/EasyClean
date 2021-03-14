@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         userLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                Intent intent = new Intent(MainActivity.this, EnterEmailActivity.class);
                 intent.putExtra("loginType", USER_LOGIN);
                 startActivity(intent);
             }
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         adminLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                Intent intent = new Intent(MainActivity.this, EnterEmailActivity.class);
                 intent.putExtra("loginType", ADMIN_LOGIN);
                 startActivity(intent);
 
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         cleanerLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                Intent intent = new Intent(MainActivity.this, EnterEmailActivity.class);
                 intent.putExtra("loginType", CLEANER_LOGIN);
                 startActivity(intent);
             }

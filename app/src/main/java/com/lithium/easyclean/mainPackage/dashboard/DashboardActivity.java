@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.lithium.easyclean.R;
-import com.lithium.easyclean.mainPackage.start.MainActivity;
+import com.lithium.easyclean.mainPackage.start.EnterEmailActivity;
 
 public class DashboardActivity extends AppCompatActivity {
 FirebaseAuth firebaseAuth;
@@ -30,7 +30,7 @@ FirebaseUser firebaseUser;
         Button button = (Button)findViewById(R.id.sign_out_button);
         button.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
-            Intent intent=new Intent(DashboardActivity.this, MainActivity.class);
+            Intent intent=new Intent(DashboardActivity.this, EnterEmailActivity.class);
             startActivity(intent);
             finish();
         });
