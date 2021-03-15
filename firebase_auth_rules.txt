@@ -1,0 +1,22 @@
+{
+  "rules": {
+    ".read":"root.child('admins').child(auth.uid).exists()",
+      ".write":"root.child('admins').child(auth.uid).exists()",
+    "users": {
+      "$uid": {
+        ".read": "$uid == auth.uid||root.child('admins').child(auth.uid).exists()",
+          ".write": "$uid == auth.uid||root.child('admins').child(auth.uid).exists()"
+      }
+    },
+
+    "admins":{
+      ".read": "true"
+    },
+      "cleaners": {
+      "$uid": {
+        ".read": "$uid == auth.uid||root.child('admins').child(auth.uid).exists()",
+          ".write": "$uid == auth.uid||root.child('admins').child(auth.uid).exists()"
+      }
+    }
+  }
+}
