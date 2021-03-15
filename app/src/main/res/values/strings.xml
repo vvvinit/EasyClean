@@ -10,7 +10,7 @@
     <string name="cleaner"><b>CLEANER</b></string>
     <string name="sign_up_small"><b>Sign Up</b></string>
     <string name="logo"><b>EasyClean</b></string>
-    <string name="group_info">Developed by - \n\t\t\tIIT2019232 - Vinit Wagh\n\t\t\tIIT2019233 - Prince\n\t\t\tIIT2019186 - Udgam Shah\n\t\t\tIIT2019196 - Priyanshu</string>
+    <string name="dev_info">IIIT Allahabad</string>
     <string name="sign_out">Sign Out</string>
 
 </resources>

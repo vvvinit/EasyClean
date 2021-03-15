@@ -16,17 +16,22 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.lithium.easyclean.R;
-import com.lithium.easyclean.mainPackage.dashboard.DashboardActivity;
+import com.lithium.easyclean.mainPackage.dashboard.UserDashboardActivity;
 
 public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String email;
     private String password;
     private String name;
+    private String uid;
     ImageButton loginButton;
     TextInputEditText nameEditText;
     TextInputEditText passwordEditText;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +65,15 @@ public class SignUpActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
+
                                         // Sign in success, update UI with the signed-in user's information
 
                                         FirebaseUser user = mAuth.getCurrentUser();
+                                        uid = user.getUid();
 
+                                        firebaseDatabase = FirebaseDatabase.getInstance();
+                                        databaseReference = firebaseDatabase.getReference();
+                                        databaseReference.child("cleaners").child(uid).setValue(new User(name,password,email));
                                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                                 .setDisplayName(name)
                                                 .setPhotoUri(null)
@@ -75,7 +85,7 @@ public class SignUpActivity extends AppCompatActivity {
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         if (task.isSuccessful()) {
                                                             Toast.makeText(SignUpActivity.this, "Profile created!", Toast.LENGTH_SHORT).show();
-                                                            Intent intent=new Intent(SignUpActivity.this, DashboardActivity.class);
+                                                            Intent intent=new Intent(SignUpActivity.this, UserDashboardActivity.class);
 
                                                             startActivity(intent);
                                                             finish();

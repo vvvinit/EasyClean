@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,8 +28,11 @@ public class SplashActivity extends AppCompatActivity {
         Animation a2 = AnimationUtils.loadAnimation(this, R.anim.scale2);
         a2.reset();
         TextView tv2 = (TextView) findViewById(R.id.group_info);
+        ImageView iv1 = findViewById(R.id.dev_icon);
         tv2.clearAnimation();
+        iv1.clearAnimation();
         tv2.startAnimation(a2);
+        iv1.startAnimation(a2);
 
         Handler handler = new Handler();
         handler.postDelayed(() -> {
@@ -36,6 +40,6 @@ public class SplashActivity extends AppCompatActivity {
 
             startActivity(intent);
             finish();
-        },500);
+        },3000);
     }
 }
