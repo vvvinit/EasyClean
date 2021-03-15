@@ -9,13 +9,18 @@
         android:roundIcon="@drawable/ic_launcher_foreground"
         android:supportsRtl="true"
         android:theme="@style/Theme.EasyClean">
-        <activity android:name=".mainPackage.dashboard.UserDashboardActivity"></activity>
+        <activity android:name=".mainPackage.dashboard.admin.CleanerListActivity"></activity>
+        <activity android:name=".mainPackage.dashboard.admin.UserListActivity" />
+        <activity android:name=".mainPackage.dashboard.UserDashboardActivity" />
         <activity android:name=".mainPackage.dashboard.CleanerDashboardActivity" />
         <activity android:name=".mainPackage.dashboard.AdminDashboardActivity" />
-        <activity android:name=".mainPackage.start.EnterPasswordActivity" />
-        <activity android:name=".mainPackage.dashboard.DashboardActivity" />
+        <activity
+            android:name=".mainPackage.start.EnterPasswordActivity"
+            android:windowSoftInputMode="stateVisible" />
         <activity android:name=".mainPackage.start.SignUpActivity" />
-        <activity android:name=".mainPackage.start.EnterEmailActivity" />
+        <activity
+            android:name=".mainPackage.start.EnterEmailActivity"
+            android:windowSoftInputMode="stateVisible" />
         <activity android:name=".mainPackage.start.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

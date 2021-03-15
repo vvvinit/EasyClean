@@ -30,6 +30,7 @@ public class EnterEmailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_enter_email);
 
         emailTextInput = findViewById(R.id.editTextUsername);
+        emailTextInput.requestFocus();
         nextButton = findViewById(R.id.login_button);
         mAuth = FirebaseAuth.getInstance();
 

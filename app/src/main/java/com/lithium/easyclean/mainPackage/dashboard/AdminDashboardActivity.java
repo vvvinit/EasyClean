@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.lithium.easyclean.R;
+import com.lithium.easyclean.mainPackage.dashboard.admin.CleanerListActivity;
+import com.lithium.easyclean.mainPackage.dashboard.admin.UserListActivity;
 import com.lithium.easyclean.mainPackage.start.EnterEmailActivity;
 
 public class AdminDashboardActivity extends AppCompatActivity {
@@ -39,6 +41,20 @@ public class AdminDashboardActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+        Button button1 = (Button)findViewById(R.id.user_list_button);
+        button1.setOnClickListener(v -> {
+            Intent intent=new Intent(AdminDashboardActivity.this, UserListActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+        Button button2 = (Button)findViewById(R.id.cleaner_list_button);
+        button2.setOnClickListener(v -> {
+            Intent intent=new Intent(AdminDashboardActivity.this, CleanerListActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
 
 
 

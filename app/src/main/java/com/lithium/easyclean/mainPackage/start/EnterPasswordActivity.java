@@ -46,6 +46,7 @@ public class EnterPasswordActivity extends AppCompatActivity {
 
         loginButton = findViewById(R.id.login_button);
         passwordEditText = findViewById(R.id.editTextPassword);
+        passwordEditText.requestFocus();
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override

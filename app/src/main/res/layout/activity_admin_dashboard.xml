@@ -13,7 +13,8 @@
         app:layout_constraintBottom_toTopOf="@+id/admin_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.86" />
 
     <TextView
         android:id="@+id/admin_name"
@@ -23,7 +24,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.286" />
 
     <TextView
         android:id="@+id/admin_email"
@@ -35,7 +37,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/admin_name"
-        app:layout_constraintVertical_bias="0.029" />
+        app:layout_constraintVertical_bias="0.042" />
 
     <Button
         android:id="@+id/sign_out_button"
@@ -45,6 +47,30 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/admin_email" />
+        app:layout_constraintTop_toBottomOf="@+id/admin_email"
+        app:layout_constraintVertical_bias="0.847" />
+
+    <Button
+        android:id="@+id/user_list_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="USERS"
+        app:layout_constraintBottom_toTopOf="@+id/sign_out_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.513"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/admin_email"
+        app:layout_constraintVertical_bias="0.758" />
+
+    <Button
+        android:id="@+id/cleaner_list_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CLEANERS"
+        app:layout_constraintBottom_toTopOf="@+id/user_list_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/admin_email"
+        app:layout_constraintVertical_bias="0.948" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

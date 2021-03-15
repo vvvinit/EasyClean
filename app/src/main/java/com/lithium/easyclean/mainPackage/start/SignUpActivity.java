@@ -35,7 +35,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mAuth = FirebaseAuth.getInstance();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
@@ -73,7 +73,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                                         firebaseDatabase = FirebaseDatabase.getInstance();
                                         databaseReference = firebaseDatabase.getReference();
-                                        databaseReference.child("cleaners").child(uid).setValue(new User(name,password,email));
+                                        databaseReference.child("users").child(uid).setValue(new User(name,password,email));
                                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                                 .setDisplayName(name)
                                                 .setPhotoUri(null)
