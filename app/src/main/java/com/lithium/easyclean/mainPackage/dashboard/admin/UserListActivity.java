@@ -28,10 +28,16 @@ import java.util.List;
 
 public class UserListActivity extends AppCompatActivity {
     private static final String TAG = "UserListActivity";
+    private String email = "second@a.com";
+    private String password = "abc1234";
+    private String name= "second";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
+
+
         Button backButton = findViewById(R.id.back);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -9,7 +9,8 @@
         android:roundIcon="@drawable/ic_launcher_foreground"
         android:supportsRtl="true"
         android:theme="@style/Theme.EasyClean">
-        <activity android:name=".mainPackage.dashboard.admin.CleanerListActivity"></activity>
+        <activity android:name=".mainPackage.dashboard.admin.NewCleanerActivity"></activity>
+        <activity android:name=".mainPackage.dashboard.admin.CleanerListActivity" />
         <activity android:name=".mainPackage.dashboard.admin.UserListActivity" />
         <activity android:name=".mainPackage.dashboard.UserDashboardActivity" />
         <activity android:name=".mainPackage.dashboard.CleanerDashboardActivity" />
