@@ -47,6 +47,16 @@ public class UserListActivity extends AppCompatActivity {
                 finish();
             }
         });
+        Button addCleanerButton = findViewById(R.id.add_user_button);
+        addCleanerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(UserListActivity.this, NewCleanerActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         ListView listView = (ListView) findViewById(R.id.user_list_view);
 

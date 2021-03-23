@@ -7,10 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="hover">#15202B</color>
+    <color name="hover">#215971</color>
     <color name="card">#192734</color>
-    <color name="background">#22303C</color>
-    <color name="primary_text">#FFFFFFFF</color>
+    <color name="background">#71DFD4</color>
+    <color name="primary_text">#000103</color>
     <color name="secondary_text">#8899A6</color>
     <color name="accent">#00CDD3</color>
+
+
+
 </resources>
