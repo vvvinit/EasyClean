@@ -3,9 +3,11 @@ package com.lithium.easyclean.mainPackage.dashboard;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,7 +31,15 @@ public class CleanerDashboardActivity extends AppCompatActivity {
         textView.setText(s);
         textView1.setText(userEmail);
 
-
+        ImageButton profileButton = (ImageButton) findViewById(R.id.profile_button);
+        profileButton.setOnClickListener(v -> {
+            profileButton.setImageDrawable(ResourcesCompat.getDrawable(this.getResources(), R.drawable.ic_profile_pressed,null));
+            Intent intent=new Intent(
+                    CleanerDashboardActivity.this, ProfileActivity.class);
+            intent.putExtra("type",1);
+            startActivity(intent);
+            finish();
+        });
 
 
         Button button = (Button)findViewById(R.id.sign_out_button);

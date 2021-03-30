@@ -13,7 +13,14 @@
     <color name="primary_text">#000103</color>
     <color name="secondary_text">#8899A6</color>
     <color name="accent">#00CDD3</color>
-
-
-
+    <color name="default_button">
+        <gradient xmlns:android="http://schemas.android.com/apk/res/android"
+        android:startColor="#215971"
+        android:endColor="#192734"
+        android:type="linear"/></color>
+    <color name="pressed_button">
+        <gradient xmlns:android="http://schemas.android.com/apk/res/android"
+            android:startColor="#192734"
+            android:endColor="#215971"
+            android:type="linear"/></color>
 </resources>
