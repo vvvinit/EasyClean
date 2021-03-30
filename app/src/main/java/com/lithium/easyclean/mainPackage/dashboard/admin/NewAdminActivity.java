@@ -23,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.lithium.easyclean.R;
 import com.lithium.easyclean.mainPackage.start.User;
 
-public class NewUserActivity extends AppCompatActivity {
+public class NewAdminActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private String email;
@@ -38,7 +38,7 @@ public class NewUserActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_user);
+        setContentView(R.layout.activity_new_admin);
 
 
         ImageButton signUp = findViewById(R.id.sign_up_button);
@@ -54,13 +54,13 @@ public class NewUserActivity extends AppCompatActivity {
                     name = nameInput.getText().toString();
                     password = passwordInput.getText().toString();
                     email = emailInput.getText().toString();
-                    Toast.makeText(NewUserActivity.this, email+password, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewAdminActivity.this, email+password, Toast.LENGTH_SHORT).show();
                     FirebaseOptions options = new FirebaseOptions.Builder()
                             .setApplicationId("1:16498016959:android:f5512cb564ebd13fff7c0a") // Required for Analytics.
                             .setApiKey("AIzaSyB9dqPlUm9hC6dUecxyV5KiGwlKIf1YIJQ") // Required for Auth.
                             .setDatabaseUrl("https://easyclean-se-default-rtdb.firebaseio.com/") // Required for RTDB.
                             .build();
-                    FirebaseApp.initializeApp(NewUserActivity.this /* Context */, options, "secondary");
+                    FirebaseApp.initializeApp(NewAdminActivity.this /* Context */, options, "secondary");
 
 // Retrieve my other app.
                     FirebaseApp app = FirebaseApp.getInstance("secondary");
@@ -68,7 +68,7 @@ public class NewUserActivity extends AppCompatActivity {
                     FirebaseAuth secondaryAuth = FirebaseAuth.getInstance(app);
 
                     secondaryAuth.createUserWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(NewUserActivity.this, new OnCompleteListener<AuthResult>() {
+                            .addOnCompleteListener(NewAdminActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
@@ -80,7 +80,7 @@ public class NewUserActivity extends AppCompatActivity {
 
                                         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                                         DatabaseReference databaseReference = firebaseDatabase.getReference();
-                                        databaseReference.child("users").child(uid).setValue(new User(name,password,email));
+                                        databaseReference.child("admins").child(uid).setValue(new User(name,password,email));
                                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                                 .setDisplayName(name)
                                                 .setPhotoUri(null)
@@ -91,10 +91,10 @@ public class NewUserActivity extends AppCompatActivity {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         if (task.isSuccessful()) {
-                                                            Toast.makeText(NewUserActivity.this, "Profile created!", Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(NewAdminActivity.this, "Profile created!", Toast.LENGTH_SHORT).show();
                                                             secondaryAuth.signOut();
                                                             app.delete();
-                                                            Intent intent=new Intent(NewUserActivity.this, UserListActivity.class);
+                                                            Intent intent=new Intent(NewAdminActivity.this, AdminListActivity.class);
                                                             startActivity(intent);
                                                             finish();
 
@@ -107,10 +107,10 @@ public class NewUserActivity extends AppCompatActivity {
                                     } else {
                                         // If sign in fails, display a message to the user.
 
-                                        Toast.makeText(NewUserActivity.this, "Authentication failed.",
+                                        Toast.makeText(NewAdminActivity.this, "Authentication failed.",
                                                 Toast.LENGTH_SHORT).show();
 
-                                        Intent intent=new Intent(NewUserActivity.this, NewUserActivity.class);
+                                        Intent intent=new Intent(NewAdminActivity.this, NewAdminActivity.class);
                                         startActivity(intent);
                                         finish();
 

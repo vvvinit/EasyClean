@@ -9,7 +9,9 @@
         android:roundIcon="@drawable/ic_launcher_foreground"
         android:supportsRtl="true"
         android:theme="@style/Theme.EasyClean">
-        <activity android:name=".mainPackage.dashboard.admin.NewUserActivity"></activity>
+        <activity android:name=".mainPackage.dashboard.admin.NewAdminActivity"></activity>
+        <activity android:name=".mainPackage.dashboard.admin.AdminListActivity" />
+        <activity android:name=".mainPackage.dashboard.admin.NewUserActivity" />
         <activity android:name=".mainPackage.dashboard.admin.NewCleanerActivity" />
         <activity android:name=".mainPackage.dashboard.admin.CleanerListActivity" />
         <activity android:name=".mainPackage.dashboard.admin.UserListActivity" />

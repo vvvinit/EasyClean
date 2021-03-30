@@ -53,7 +53,7 @@ public class NewCleanerActivity extends AppCompatActivity {
                     name = nameInput.getText().toString();
                     password = passwordInput.getText().toString();
                     email = emailInput.getText().toString();
-                    Toast.makeText(NewCleanerActivity.this, email+password, Toast.LENGTH_SHORT).show();
+                    Toast.makeText( NewCleanerActivity.this, email+password, Toast.LENGTH_SHORT).show();
                     FirebaseOptions options = new FirebaseOptions.Builder()
                             .setApplicationId("1:16498016959:android:f5512cb564ebd13fff7c0a") // Required for Analytics.
                             .setApiKey("AIzaSyB9dqPlUm9hC6dUecxyV5KiGwlKIf1YIJQ") // Required for Auth.

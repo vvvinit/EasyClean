@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.lithium.easyclean.R;
+import com.lithium.easyclean.mainPackage.dashboard.admin.AdminListActivity;
 import com.lithium.easyclean.mainPackage.dashboard.admin.CleanerListActivity;
 import com.lithium.easyclean.mainPackage.dashboard.admin.UserListActivity;
 import com.lithium.easyclean.mainPackage.start.EnterEmailActivity;
@@ -32,8 +33,6 @@ public class AdminDashboardActivity extends AppCompatActivity {
         textView1.setText(userEmail);
 
 
-
-
         Button button = (Button)findViewById(R.id.sign_out_button);
         button.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
@@ -51,6 +50,13 @@ public class AdminDashboardActivity extends AppCompatActivity {
         Button button2 = (Button)findViewById(R.id.cleaner_list_button);
         button2.setOnClickListener(v -> {
             Intent intent=new Intent(AdminDashboardActivity.this, CleanerListActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+        Button button3 = (Button)findViewById(R.id.admin_list_button);
+        button3.setOnClickListener(v -> {
+            Intent intent=new Intent(AdminDashboardActivity.this, AdminListActivity.class);
             startActivity(intent);
             finish();
         });
