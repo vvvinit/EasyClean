@@ -20,6 +20,7 @@ import com.lithium.easyclean.R;
 
 public class EnterEmailActivity extends AppCompatActivity {
     TextInputEditText emailTextInput;
+
     ImageButton nextButton;
     String email;
     FirebaseAuth mAuth;
@@ -32,6 +33,7 @@ public class EnterEmailActivity extends AppCompatActivity {
         emailTextInput = findViewById(R.id.editTextUsername);
         emailTextInput.requestFocus();
         nextButton = findViewById(R.id.login_button);
+
         mAuth = FirebaseAuth.getInstance();
 
         nextButton.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +66,7 @@ public class EnterEmailActivity extends AppCompatActivity {
                                             throw task.getException();
                                         } catch(FirebaseAuthInvalidCredentialsException e) {
                                             Toast.makeText(EnterEmailActivity.this, "Invalid Email!", Toast.LENGTH_SHORT).show();
+
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }

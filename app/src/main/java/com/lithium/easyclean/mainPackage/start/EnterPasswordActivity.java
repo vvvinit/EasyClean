@@ -1,14 +1,17 @@
 package com.lithium.easyclean.mainPackage.start;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -32,6 +35,7 @@ public class EnterPasswordActivity extends AppCompatActivity {
     private String email;
     private String password;
     ImageButton loginButton;
+    TextView forgetPassword;
     TextInputEditText passwordEditText;
     private static final String TAG = "EnterPasswordActivity";
 
@@ -46,7 +50,52 @@ public class EnterPasswordActivity extends AppCompatActivity {
 
         loginButton = findViewById(R.id.login_button);
         passwordEditText = findViewById(R.id.editTextPassword);
+        forgetPassword = findViewById(R.id.forget_password);
         passwordEditText.requestFocus();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle("Reset Password");
+        builder.setMessage("Password reset link will be sent to "+ email);
+        builder.setPositiveButton("Confirm",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(email.equals("iit2019232@iiita.ac.in"))
+                        FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Log.d(TAG, "Email sent.");
+                                            Toast.makeText(EnterPasswordActivity.this, "Password reset email sent.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                    }
+                });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        AlertDialog dialog = builder.create();
+
+
+
+
+        forgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.show();
+
+            }
+        });
+
+
+
+
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,6 +171,7 @@ public class EnterPasswordActivity extends AppCompatActivity {
 //                                        Log.w(TAG, "signInWithEmail:failure", task.getException());
                                         Toast.makeText(EnterPasswordActivity.this, "Authentication failed.",
                                                 Toast.LENGTH_SHORT).show();
+                                        forgetPassword.setVisibility(View.VISIBLE);
                                     }
                                 }
                             });
