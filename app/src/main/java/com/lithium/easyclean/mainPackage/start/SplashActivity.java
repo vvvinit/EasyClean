@@ -32,6 +32,8 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+
+
             Animation a = AnimationUtils.loadAnimation(this, R.anim.scale);
             a.reset();
             TextView tv = (TextView) findViewById(R.id.logo_text);
@@ -49,66 +51,68 @@ public class SplashActivity extends AppCompatActivity {
 
         Handler handler = new Handler();
         handler.postDelayed(() -> {
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            if (user != null){
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("No connection");
-                builder.setMessage("Please connect to internet!");
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Trying to connect...");
+            builder.setMessage("Please wait...");
+            AlertDialog dialog = builder.create();
+            dialog.setCancelable(false);
+            dialog.show();
 
+            DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+            connectedRef.addValueEventListener(new ValueEventListener() {
 
-                DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
-                connectedRef.addValueEventListener(new ValueEventListener() {
-                    AlertDialog dialog = null;
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        boolean connected = snapshot.getValue(Boolean.class);
-
-                        if (!connected) {
-                            Toast.makeText(SplashActivity.this, "No connection", Toast.LENGTH_SHORT).show();
-                            dialog = builder.create();
-                            dialog.setCancelable(false);
-                            dialog.show();
-                        }
-                        else {
-                            if(dialog!=null)
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    boolean connected = snapshot.getValue(Boolean.class);
+                    if (connected) {
+                        dialog.setMessage("");
+                        dialog.setTitle("Connected");
+//                        try {
+//                            this.wait(500);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+                        if(dialog!=null)
                             dialog.hide();
-                        }
-                    }
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        if (user != null){
+                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("admins").child(user.getUid());
 
-                    @Override
-                    public void onCancelled(DatabaseError error) {
-                    }
-                });
-
-
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("admins").child(user.getUid());
-
-                ValueEventListener eventListener = new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.exists()) {
-                            Toast.makeText(SplashActivity.this, "Logged in as an Admin!", Toast.LENGTH_SHORT).show();
-                            Intent intent=new Intent(SplashActivity.this, AdminDashboardActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                        else {
-                            DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference().child("cleaners").child(user.getUid());
-
-                            ValueEventListener eventListener2 = new ValueEventListener() {
+                            ValueEventListener eventListener = new ValueEventListener() {
                                 @Override
-                                public void onDataChange(DataSnapshot dataSnapshot1) {
-                                    if(dataSnapshot1.exists()) {
-                                        Toast.makeText(SplashActivity.this, "Logged in as a Cleaner!", Toast.LENGTH_SHORT).show();
-                                        Intent intent=new Intent(SplashActivity.this, CleanerDashboardActivity.class);
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.exists()) {
+                                        Toast.makeText(SplashActivity.this, "Logged in as an Admin!", Toast.LENGTH_SHORT).show();
+                                        Intent intent=new Intent(SplashActivity.this, AdminDashboardActivity.class);
                                         startActivity(intent);
                                         finish();
                                     }
                                     else {
-                                        Toast.makeText(SplashActivity.this, "Logged in!", Toast.LENGTH_SHORT).show();
-                                        Intent intent=new Intent(SplashActivity.this, UserDashboardActivity.class);
-                                        startActivity(intent);
-                                        finish();
+                                        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference().child("cleaners").child(user.getUid());
+
+                                        ValueEventListener eventListener2 = new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot1) {
+                                                if(dataSnapshot1.exists()) {
+                                                    Toast.makeText(SplashActivity.this, "Logged in as a Cleaner!", Toast.LENGTH_SHORT).show();
+                                                    Intent intent=new Intent(SplashActivity.this, CleanerDashboardActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+                                                else {
+                                                    Toast.makeText(SplashActivity.this, "Logged in!", Toast.LENGTH_SHORT).show();
+                                                    Intent intent=new Intent(SplashActivity.this, UserDashboardActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+                                                Log.d(TAG, databaseError.getMessage()); //Don't ignore errors!
+                                            }
+                                        };
+                                        databaseReference1.addListenerForSingleValueEvent(eventListener2);
                                     }
                                 }
 
@@ -117,21 +121,21 @@ public class SplashActivity extends AppCompatActivity {
                                     Log.d(TAG, databaseError.getMessage()); //Don't ignore errors!
                                 }
                             };
-                            databaseReference1.addListenerForSingleValueEvent(eventListener2);
+                            databaseReference.addListenerForSingleValueEvent(eventListener);
+                        } else{
+                            Intent intent = new Intent(SplashActivity.this, EnterEmailActivity.class);
+                            startActivity(intent);
+                            finish();
                         }
                     }
+                }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.d(TAG, databaseError.getMessage()); //Don't ignore errors!
-                    }
-                };
-                databaseReference.addListenerForSingleValueEvent(eventListener);
-            } else{
-                 Intent intent = new Intent(SplashActivity.this, EnterEmailActivity.class);
-                startActivity(intent);
-                finish();
-            }
+                @Override
+                public void onCancelled(DatabaseError error) {
+                }
+            });
+
+
 
         },3000);
     }

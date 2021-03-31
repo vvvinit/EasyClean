@@ -61,7 +61,7 @@ public class EnterPasswordActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(email.equals("iit2019232@iiita.ac.in"))
+//                        if(email.equals("iit2019232@iiita.ac.in"))
                         FirebaseAuth.getInstance().sendPasswordResetEmail(email)
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
