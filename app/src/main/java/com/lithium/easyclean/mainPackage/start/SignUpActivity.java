@@ -59,7 +59,7 @@ public class SignUpActivity extends AppCompatActivity {
                 if(nameInput!=null&&passwordInput!=null) {
                     name = nameInput.getText().toString();
                     password = passwordInput.getText().toString();
-                    Toast.makeText(SignUpActivity.this, email+password, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(SignUpActivity.this, email+password, Toast.LENGTH_SHORT).show();
                     mAuth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override

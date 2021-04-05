@@ -3,13 +3,14 @@
     package="com.lithium.easyclean">
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@drawable/ic_launcher_foreground"
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_launcher_foreground"
         android:supportsRtl="true"
         android:theme="@style/Theme.EasyClean">
-        <activity android:name=".mainPackage.dashboard.ProfileActivity"></activity>
+        <activity android:name=".mainPackage.dashboard.admin.ViewUserActivity" />
+        <activity android:name=".mainPackage.dashboard.ProfileActivity" />
         <activity android:name=".mainPackage.dashboard.admin.NewAdminActivity" />
         <activity android:name=".mainPackage.dashboard.admin.AdminListActivity" />
         <activity android:name=".mainPackage.dashboard.admin.NewUserActivity" />
@@ -33,7 +34,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".mainPackage.start.MainActivity" />
     </application>
 
 </manifest>

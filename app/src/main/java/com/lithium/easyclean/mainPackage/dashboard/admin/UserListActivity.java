@@ -2,9 +2,8 @@ package com.lithium.easyclean.mainPackage.dashboard.admin;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -22,9 +21,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.lithium.easyclean.R;
 import com.lithium.easyclean.mainPackage.dashboard.AdminDashboardActivity;
+import com.lithium.easyclean.mainPackage.dashboard.UsersAdapter;
+import com.lithium.easyclean.mainPackage.start.User;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class UserListActivity extends AppCompatActivity {
     private static final String TAG = "UserListActivity";
@@ -58,23 +58,37 @@ public class UserListActivity extends AppCompatActivity {
         });
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        ListView listView = (ListView) findViewById(R.id.user_list_view);
 
-        List<String> list = new ArrayList<>();
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
-        listView.setAdapter(arrayAdapter);
+        ArrayList<User> list = new ArrayList<User>();
+
+        UsersAdapter adapter = new UsersAdapter(this, list);
+        ListView listView = (ListView) findViewById(R.id.user_list_view);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView <?> arg0, View view, int position, long id) {
+                User user = (User) arg0.getItemAtPosition(position);
+//                Toast.makeText(UserListActivity.this, user.getEmail(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(UserListActivity.this,ViewUserActivity.class);
+                intent.putExtra("uid", "UID387529035" );
+                intent.putExtra("user", user);
+                startActivity(intent);
+            }
+
+        });
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
         DatabaseReference scoreRef = rootRef.child("users");
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String userId = ds.getKey();
-                    String score = ds.child("email").getValue(String.class);
-                    list.add(userId + " / " +  score);
-                    Log.d("TAG", userId + " / " +  score);
+//                    String userId = ds.getKey();
+//                    String score = ds.child("email").getValue(String.class);
+//                    list.add(userId + " / " +  score);
+//                    Log.d("TAG", userId + " / " +  score);
+                    User user = ds.getValue(User.class);
+                    list.add(user);
                 }
-                arrayAdapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -87,12 +101,10 @@ public class UserListActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-                    String userId = snapshot.getKey();
-                    String score = snapshot.child("email").getValue(String.class);
-                    list.add(userId + " / " + score);
-                    Log.d("TAG", userId + " / " + score);
+                User user = snapshot.getValue(User.class);
+                list.add(user);
 
-                arrayAdapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -102,12 +114,10 @@ public class UserListActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                String userId = snapshot.getKey();
-                String score = snapshot.child("email").getValue(String.class);
-                list.remove(userId + " / " + score);
-                Log.d("TAG", userId + " / " + score);
+                User user = snapshot.getValue(User.class);
+                list.add(user);
 
-                arrayAdapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
             }
 
             @Override
