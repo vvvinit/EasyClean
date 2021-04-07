@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
@@ -26,10 +25,6 @@ public class CleanerDashboardActivity extends AppCompatActivity {
         firebaseUser = firebaseAuth.getCurrentUser();
         String s = firebaseUser.getDisplayName();
         String userEmail = firebaseUser.getEmail();
-        TextView textView = findViewById(R.id.cleaner_name);
-        TextView textView1 = findViewById(R.id.cleaner_email);
-        textView.setText(s);
-        textView1.setText(userEmail);
 
         ImageButton profileButton = (ImageButton) findViewById(R.id.profile_button);
         profileButton.setOnClickListener(v -> {

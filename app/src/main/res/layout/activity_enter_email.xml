@@ -59,6 +59,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageButton
+        android:backgroundTint="@color/color7"
         android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -14,5 +14,6 @@
     <string name="sign_out">Sign Out</string>
     <string name="developed_by">Developed By</string>
     <string name="login">Login</string>
+    <string name="menu">Menu</string>
 
 </resources>
