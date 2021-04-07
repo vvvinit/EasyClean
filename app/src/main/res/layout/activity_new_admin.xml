@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Full Name"
-        android:textColorHint="@color/background"
+        android:textColorHint="@color/color3"
         app:layout_constraintBottom_toTopOf="@+id/layoutPasswordInput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,10 +21,10 @@
             android:id="@+id/editTextName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/secondary_text"
+            android:background="@color/color5"
             android:imeOptions="actionNext"
             android:inputType="text"
-            android:textColor="@color/background" />
+            android:textColor="@color/color3" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -48,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/password"
-        android:textColorHint="@color/background"
+        android:textColorHint="@color/color3"
         app:layout_constraintBottom_toTopOf="@+id/sign_up_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,10 +59,10 @@
             android:id="@+id/editPasswordValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/secondary_text"
+            android:background="@color/color5"
             android:imeOptions="actionNext"
             android:inputType="textPassword"
-            android:textColor="@color/background" />
+            android:textColor="@color/color3" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -71,7 +71,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/username"
-        android:textColorHint="@color/background"
+        android:textColorHint="@color/color3"
         app:layout_constraintBottom_toTopOf="@+id/layoutPasswordInput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,10 +81,10 @@
             android:id="@+id/editEmailValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/secondary_text"
+            android:background="@color/color5"
             android:imeOptions="actionNext"
             android:inputType="text"
-            android:textColor="@color/background" />
+            android:textColor="@color/color3" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageButton
@@ -92,7 +92,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:background="@color/background"
+        android:background="@color/color3"
         android:src="@drawable/ic_login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

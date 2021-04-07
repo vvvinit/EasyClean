@@ -12,5 +12,6 @@
     <string name="logo"><b>EasyClean</b></string>
     <string name="dev_info">IIIT Allahabad</string>
     <string name="sign_out">Sign Out</string>
+    <string name="developed_by">Developed By</string>
 
 </resources>

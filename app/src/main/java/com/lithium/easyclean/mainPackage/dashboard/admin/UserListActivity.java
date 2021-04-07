@@ -69,9 +69,9 @@ public class UserListActivity extends AppCompatActivity {
                 User user = (User) arg0.getItemAtPosition(position);
 //                Toast.makeText(UserListActivity.this, user.getEmail(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(UserListActivity.this,ViewUserActivity.class);
-                intent.putExtra("uid", "UID387529035" );
                 intent.putExtra("user", user);
                 startActivity(intent);
+                finish();
             }
 
         });
@@ -86,6 +86,7 @@ public class UserListActivity extends AppCompatActivity {
 //                    list.add(userId + " / " +  score);
 //                    Log.d("TAG", userId + " / " +  score);
                     User user = ds.getValue(User.class);
+                    user.setUid(ds.getKey());
                     list.add(user);
                 }
                 adapter.notifyDataSetChanged();
@@ -102,6 +103,7 @@ public class UserListActivity extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
                 User user = snapshot.getValue(User.class);
+                user.setUid(snapshot.getKey());
                 list.add(user);
 
                 adapter.notifyDataSetChanged();
@@ -115,7 +117,8 @@ public class UserListActivity extends AppCompatActivity {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                list.add(user);
+                user.setUid(snapshot.getKey());
+                list.remove(user);
 
                 adapter.notifyDataSetChanged();
             }
