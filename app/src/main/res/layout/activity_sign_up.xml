@@ -1,81 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="mainPackage.start.SignUpActivity">
+    tools:context="mainPackage.start.SignUpActivity"
+    android:background="@color/color7">
 
-    <RelativeLayout
-        android:layout_alignParentTop="true"
+
+    <ProgressBar
+        android:id="@+id/progressBar1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="3dp"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="60dp"
-        android:layout_marginBottom="60dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp">
-        <TextView
-            android:id="@+id/login_text"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sign_up_small"
-            android:textSize="25sp"
-            android:layout_margin="20dp"
-            />
+        style="?android:attr/progressBarStyleHorizontal"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/color1"
+        android:indeterminateTintMode="src_atop"
+        android:max="100"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/login_text"
+        style="@style/CustomTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_up_small"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar1" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/sign_up_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar1"
+
+        android:layout_margin="20dp">
+
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_below="@id/login_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/layoutNameInput"
-            android:hint="Full Name"
-            android:textColorHint="@color/color3">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Full Name">
+
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editTextName"
-                android:background="@color/color5"
-                android:textColor="@color/color3"
-                android:imeOptions="actionNext"
                 android:layout_marginBottom="8dp"
-                android:inputType="text"/>
+                android:background="@drawable/custom_edittext"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:textColor="@color/color3" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutPasswordInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/layoutNameInput"
-            android:id="@+id/layoutPasswordInput"
-            app:passwordToggleEnabled="true"
             android:hint="@string/password"
-            android:textColorHint="@color/color3">
+            app:passwordToggleEnabled="true">
+
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editPasswordValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editPasswordValue"
-                android:background="@color/color5"
-                android:textColor="@color/color3"
-                android:imeOptions="actionNext"
                 android:layout_marginBottom="8dp"
-                android:inputType="textPassword"/>
+                android:background="@drawable/custom_edittext"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:textColor="@color/color3" />
         </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
-        <ImageButton
-            android:layout_marginTop="12dp"
-            android:id="@+id/sign_up_button"
-            android:layout_below="@id/layoutPasswordInput"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_login"
-            android:background="@color/color3"/>
+    <ImageButton
+        android:id="@+id/sign_up_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/color3"
+        android:src="@drawable/ic_login"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar1" />
 
-    </RelativeLayout>
 
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

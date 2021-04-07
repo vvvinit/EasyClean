@@ -16,4 +16,10 @@
         <item name="android:fontFamily">@font/century</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="CustomTextView" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="android:background">@color/color7</item>
+        <item name="android:textColor">@color/color1</item>
+        <item name="android:textStyle">normal</item>
+    </style>
 </resources>

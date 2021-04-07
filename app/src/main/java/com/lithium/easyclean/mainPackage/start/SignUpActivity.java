@@ -3,16 +3,14 @@ package com.lithium.easyclean.mainPackage.start;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -21,17 +19,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.lithium.easyclean.R;
 import com.lithium.easyclean.mainPackage.dashboard.UserDashboardActivity;
 
+import java.util.Objects;
+
 public class SignUpActivity extends AppCompatActivity {
+    ImageButton loginButton;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
     private FirebaseAuth mAuth;
     private String email;
     private String password;
     private String name;
     private String uid;
-    ImageButton loginButton;
-    TextInputEditText nameEditText;
-    TextInputEditText passwordEditText;
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,72 +41,123 @@ public class SignUpActivity extends AppCompatActivity {
         email = intent.getStringExtra("email");
 
         mAuth = FirebaseAuth.getInstance();
-
+        ProgressBar progressBar = findViewById(R.id.progressBar1);
         loginButton = findViewById(R.id.login_button);
-        nameEditText = findViewById(R.id.editTextName);
-        passwordEditText = findViewById(R.id.editTextPassword);
-
+        TextInputEditText passwordInput = findViewById(R.id.editPasswordValue);
+        TextInputEditText nameInput = findViewById(R.id.editTextName);
         ImageButton signUp = findViewById(R.id.sign_up_button);
-        signUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        signUp.setOnClickListener(v -> {
+            progressBar.setVisibility(View.VISIBLE);
 
 
-                TextInputEditText passwordInput = findViewById(R.id.editPasswordValue);
-                TextInputEditText nameInput = findViewById(R.id.editTextName);
-                if(nameInput!=null&&passwordInput!=null) {
-                    name = nameInput.getText().toString();
-                    password = passwordInput.getText().toString();
+            if (nameInput != null && passwordInput != null) {
+                name = Objects.requireNonNull(nameInput.getText()).toString();
+                password = Objects.requireNonNull(passwordInput.getText()).toString();
 //                    Toast.makeText(SignUpActivity.this, email+password, Toast.LENGTH_SHORT).show();
-                    mAuth.createUserWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
+                mAuth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(SignUpActivity.this, task -> {
+                            if (task.isSuccessful()) {
 
-                                        // Sign in success, update UI with the signed-in user's information
+                                // Sign in success, update UI with the signed-in user's information
 
-                                        FirebaseUser user = mAuth.getCurrentUser();
-                                        uid = user.getUid();
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                assert user != null;
+                                uid = user.getUid();
 
-                                        firebaseDatabase = FirebaseDatabase.getInstance();
-                                        databaseReference = firebaseDatabase.getReference();
-                                        databaseReference.child("users").child(uid).setValue(new User(name,password,email));
-                                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                                .setDisplayName(name)
-                                                .setPhotoUri(null)
-                                                .build();
+                                firebaseDatabase = FirebaseDatabase.getInstance();
+                                databaseReference = firebaseDatabase.getReference();
+                                databaseReference.child("users").child(uid).setValue(new User(name, password, email, uid));
+                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(name)
+                                        .setPhotoUri(null)
+                                        .build();
 
-                                        user.updateProfile(profileUpdates)
-                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        if (task.isSuccessful()) {
+                                user.updateProfile(profileUpdates)
+                                        .addOnCompleteListener(task1 -> {
+                                            if (task1.isSuccessful()) {
+                                                Toast.makeText(SignUpActivity.this, "Profile created!", Toast.LENGTH_SHORT).show();
+                                                Intent intent1 = new Intent(SignUpActivity.this, UserDashboardActivity.class);
+                                                progressBar.setVisibility(View.GONE);
+                                                intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                startActivity(intent1);
+                                                finish();
+                                            }
+                                        });
+
+
+                            } else {
+                                // If sign in fails, display a message to the user.
+
+                                Toast.makeText(SignUpActivity.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        });
+            }
+
+
+        });
+
+        passwordInput.setOnEditorActionListener(
+                (v, actionId, event) -> {
+                    // Identifier of the action. This will be either the identifier you supplied,
+                    // or EditorInfo.IME_NULL if being called due to the enter key being pressed.
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        progressBar.setVisibility(View.VISIBLE);
+
+
+                        if (nameInput != null) {
+                            name = Objects.requireNonNull(nameInput.getText()).toString();
+                            password = Objects.requireNonNull(passwordInput.getText()).toString();
+//                    Toast.makeText(SignUpActivity.this, email+password, Toast.LENGTH_SHORT).show();
+                            mAuth.createUserWithEmailAndPassword(email, password)
+                                    .addOnCompleteListener(SignUpActivity.this, task -> {
+                                        if (task.isSuccessful()) {
+
+                                            // Sign in success, update UI with the signed-in user's information
+
+                                            FirebaseUser user = mAuth.getCurrentUser();
+                                            assert user != null;
+                                            uid = user.getUid();
+
+                                            firebaseDatabase = FirebaseDatabase.getInstance();
+                                            databaseReference = firebaseDatabase.getReference();
+                                            databaseReference.child("users").child(uid).setValue(new User(name, password, email, uid));
+                                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                                    .setDisplayName(name)
+                                                    .setPhotoUri(null)
+                                                    .build();
+
+                                            user.updateProfile(profileUpdates)
+                                                    .addOnCompleteListener(task1 -> {
+                                                        if (task1.isSuccessful()) {
                                                             Toast.makeText(SignUpActivity.this, "Profile created!", Toast.LENGTH_SHORT).show();
-                                                            Intent intent=new Intent(SignUpActivity.this, UserDashboardActivity.class);
-
-                                                            startActivity(intent);
+                                                            Intent intent1 = new Intent(SignUpActivity.this, UserDashboardActivity.class);
+                                                            progressBar.setVisibility(View.GONE);
+                                                            intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                            startActivity(intent1);
                                                             finish();
                                                         }
-                                                    }
-                                                });
-
-                                       
-
-                                    } else {
-                                        // If sign in fails, display a message to the user.
-
-                                        Toast.makeText(SignUpActivity.this, "Authentication failed.",
-                                                Toast.LENGTH_SHORT).show();
-
-                                    }
-                                }
-                            });
-                }
+                                                    });
 
 
-            }
-        });
+                                        } else {
+                                            // If sign in fails, display a message to the user.
+
+                                            Toast.makeText(SignUpActivity.this, "Authentication failed.",
+                                                    Toast.LENGTH_SHORT).show();
+                                            progressBar.setVisibility(View.GONE);
+                                        }
+                                    });
+                        }
+
+                        return true;
+                    }
+                    // Return true if you have consumed the action, else false.
+                    return false;
+                });
+
+
 
     }
 
