@@ -36,7 +36,8 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.522" />
+        app:layout_constraintVertical_bias="0.522"
+        android:contentDescription="@string/profile" />
 
 
     <TextView
@@ -59,7 +60,8 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toTopOf="@+id/guideline5" />
+        app:layout_constraintTop_toTopOf="@+id/guideline5"
+        android:contentDescription="@string/edit_name" />
 
 
     <TextView
@@ -82,9 +84,11 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toTopOf="@+id/guideline7" />
+        app:layout_constraintTop_toTopOf="@+id/guideline7"
+        android:contentDescription="@string/edit_email" />
 
     <Button
+        android:layout_margin="16dp"
         android:id="@+id/sign_out_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -95,11 +99,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:layout_margin="16dp"
         android:id="@+id/back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/button_gradient"
-        android:text="BACK"
+        android:text="@string/back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

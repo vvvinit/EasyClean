@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,14 +31,16 @@ import com.lithium.easyclean.mainPackage.start.EnterEmailActivity;
 public class ProfileActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
+    int dashboardType;
     String TAG = "ProfileActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        ProgressBar progressBar = findViewById(R.id.progressBar1);
         Intent i = getIntent();
-        int dashboardType = i.getIntExtra("type", 3);
+        dashboardType = i.getIntExtra("type", 3);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         assert firebaseUser != null;
@@ -63,6 +67,7 @@ public class ProfileActivity extends AppCompatActivity {
         nameDialog.setView(nameInput);
         nameDialog.setPositiveButton("Confirm",
                 (dialog, which) -> {
+                    progressBar.setVisibility(View.VISIBLE);
                     String name = nameInput.getText().toString();
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
@@ -83,8 +88,10 @@ public class ProfileActivity extends AppCompatActivity {
                                     databaseReference.child("users").child(uid).child("name").setValue(name);
                                 textView.setText(name);
                                 Toast.makeText(ProfileActivity.this, "Name changed to " + name, Toast.LENGTH_LONG).show();
-                            } else
+                                progressBar.setVisibility(View.GONE);
+                            } else{
                                 Toast.makeText(ProfileActivity.this, "Name update failed, please try again", Toast.LENGTH_LONG).show();
+                                progressBar.setVisibility(View.GONE);}
                         });
                 });
 
@@ -124,6 +131,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        progressBar.setVisibility(View.VISIBLE);
                         String newEmail = emailInput.getText().toString();
                         if (newEmail.equals(email2Input.getText().toString())) {
                             String password = passwordInput.getText().toString();
@@ -159,18 +167,22 @@ public class ProfileActivity extends AppCompatActivity {
                                                                         databaseReference.child("users").child(uid).child("email").setValue(newEmail);
                                                                     textView1.setText(newEmail);
                                                                     Toast.makeText(ProfileActivity.this, "Email changed to " + newEmail, Toast.LENGTH_LONG).show();
+                                                                    progressBar.setVisibility(View.GONE);
 
                                                                 } else {
                                                                     Toast.makeText(ProfileActivity.this, "Error! Please Try again.", Toast.LENGTH_LONG).show();
+                                                                    progressBar.setVisibility(View.GONE);
                                                                 }
                                                             });
                                             } else {
                                                 Toast.makeText(ProfileActivity.this, "Please Try again.", Toast.LENGTH_LONG).show();
+                                                progressBar.setVisibility(View.GONE);
                                             }
 
                                         });
                         } else {
                             Toast.makeText(ProfileActivity.this, "Emails don't match! Please Try again.", Toast.LENGTH_LONG).show();
+                            progressBar.setVisibility(View.GONE);
                         }
                     }
                 });
@@ -197,5 +209,18 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = null;
+        if (dashboardType == 0)
+            intent = new Intent(ProfileActivity.this, AdminDashboardActivity.class);
+        if (dashboardType == 1)
+            intent = new Intent(ProfileActivity.this, CleanerDashboardActivity.class);
+        if (dashboardType == 2)
+            intent = new Intent(ProfileActivity.this, UserDashboardActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

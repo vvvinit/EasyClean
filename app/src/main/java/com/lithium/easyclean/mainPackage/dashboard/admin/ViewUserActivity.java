@@ -5,10 +5,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +39,7 @@ public class ViewUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_user);
-
+        ProgressBar progressBar = findViewById(R.id.progressBar1);
         Intent i = getIntent();
         User user = (User) i.getSerializableExtra("user");
         type = i.getIntExtra("type", 3);
@@ -60,7 +62,7 @@ public class ViewUserActivity extends AppCompatActivity {
         DatabaseReference.CompletionListener mRemoveListener =
                 (error, ref) -> {
                     if (error == null) {
-                        Toast.makeText(ViewUserActivity.this, "Removed", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(ViewUserActivity.this, "Removed", Toast.LENGTH_SHORT).show();
                         FirebaseOptions options = new FirebaseOptions.Builder()
                                 .setApplicationId("1:16498016959:android:f5512cb564ebd13fff7c0a") // Required for Analytics.
                                 .setApiKey("AIzaSyB9dqPlUm9hC6dUecxyV5KiGwlKIf1YIJQ") // Required for Auth.
@@ -90,6 +92,7 @@ public class ViewUserActivity extends AppCompatActivity {
                                                         .addOnCompleteListener(task11 -> {
                                                             if (task11.isSuccessful()) {
                                                                 Toast.makeText(ViewUserActivity.this, "Deleted.", Toast.LENGTH_SHORT).show();
+                                                                progressBar.setVisibility(View.GONE);
                                                                 secondaryAuth.signOut();
                                                                 app.delete();
                                                                 Intent i1 = null;
@@ -110,11 +113,13 @@ public class ViewUserActivity extends AppCompatActivity {
 //                                        Log.w(TAG, "signInWithEmail:failure", task.getException());
                                         Toast.makeText(ViewUserActivity.this, "Deletion failed.",
                                                 Toast.LENGTH_SHORT).show();
+                                        progressBar.setVisibility(View.GONE);
                                     }
                                 });
 
                     } else {
                         Toast.makeText(ViewUserActivity.this, "Failed to remove", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
                     }
                 };
 
@@ -131,6 +136,7 @@ public class ViewUserActivity extends AppCompatActivity {
 
         Button deleteButton = findViewById(R.id.delete_button);
         deleteButton.setOnClickListener(v -> {
+            progressBar.setVisibility(View.VISIBLE);
             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
             DatabaseReference databaseReference = firebaseDatabase.getReference();
             if (type == 3) databaseReference.child("users").child(uid).removeValue(mRemoveListener);
@@ -145,11 +151,12 @@ public class ViewUserActivity extends AppCompatActivity {
         AlertDialog.Builder nameDialog = new AlertDialog.Builder(this);
         nameDialog.setCancelable(true);
         nameDialog.setTitle("Change Name");
-        final EditText nameInput = new EditText(this);
+        EditText nameInput = new EditText(this);
         nameInput.setHint("Enter new name");
         nameDialog.setView(nameInput);
         nameDialog.setPositiveButton("Confirm",
                 (dialog, which) -> {
+                    progressBar.setVisibility(View.VISIBLE);
                     String newName = nameInput.getText().toString();
                     FirebaseOptions options = new FirebaseOptions.Builder()
                             .setApplicationId("1:16498016959:android:f5512cb564ebd13fff7c0a") // Required for Analytics.
@@ -180,26 +187,29 @@ public class ViewUserActivity extends AppCompatActivity {
                                                 FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                                                 DatabaseReference databaseReference = firebaseDatabase.getReference();
                                                 if (type == 3)
-                                                    databaseReference.child("users").child(uid).setValue(newName);
+                                                    databaseReference.child("users").child(uid).child("name").setValue(newName);
                                                 else if (type == 2)
-                                                    databaseReference.child("cleaners").child(uid).setValue(newName);
+                                                    databaseReference.child("cleaners").child(uid).child("name").setValue(newName);
                                                 else if (type == 1)
-                                                    databaseReference.child("admins").child(uid).setValue(newName);
+                                                    databaseReference.child("admins").child(uid).child("name").setValue(newName);
                                                 nameView.setText(newName);
                                                 Toast.makeText(ViewUserActivity.this, "Name changed to " + newName, Toast.LENGTH_LONG).show();
-                                            } else
+                                                progressBar.setVisibility(View.GONE);
+                                            } else {
                                                 Toast.makeText(ViewUserActivity.this, "Name update failed, please try again", Toast.LENGTH_LONG).show();
-                                            secondaryAuth.signOut();
-                                            app.delete();
-                                            Intent i13 = null;
-                                            if (type == 3)
-                                                i13 = new Intent(ViewUserActivity.this, UserListActivity.class);
-                                            else if (type == 2)
-                                                i13 = new Intent(ViewUserActivity.this, CleanerListActivity.class);
-                                            else if (type == 1)
-                                                i13 = new Intent(ViewUserActivity.this, AdminListActivity.class);
-                                            startActivity(i13);
-                                            finish();
+                                                progressBar.setVisibility(View.GONE);
+                                                secondaryAuth.signOut();
+                                                app.delete();
+                                                Intent i13 = null;
+                                                if (type == 3)
+                                                    i13 = new Intent(ViewUserActivity.this, UserListActivity.class);
+                                                else if (type == 2)
+                                                    i13 = new Intent(ViewUserActivity.this, CleanerListActivity.class);
+                                                else if (type == 1)
+                                                    i13 = new Intent(ViewUserActivity.this, AdminListActivity.class);
+                                                startActivity(i13);
+                                                finish();
+                                            }
                                         });
 
                                 } else {
@@ -207,6 +217,7 @@ public class ViewUserActivity extends AppCompatActivity {
 //                                        Log.w(TAG, "signInWithEmail:failure", task.getException());
                                     Toast.makeText(ViewUserActivity.this, "Name change failed.",
                                             Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.GONE);
                                 }
                             });
 
@@ -226,9 +237,9 @@ public class ViewUserActivity extends AppCompatActivity {
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setGravity(LinearLayout.TEXT_ALIGNMENT_CENTER);
-        final EditText emailInput = new EditText(this);
+        EditText emailInput = new EditText(this);
         emailInput.setHint("Enter new email");
-        final EditText email2Input = new EditText(this);
+        EditText email2Input = new EditText(this);
         email2Input.setHint("Confirm email");
         layout.addView(emailInput);
         layout.addView(email2Input);
@@ -243,6 +254,7 @@ public class ViewUserActivity extends AppCompatActivity {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        progressBar.setVisibility(View.VISIBLE);
                         String newEmail = emailInput.getText().toString();
                         if (newEmail.equals(email2Input.getText().toString())) {
 
@@ -286,14 +298,16 @@ public class ViewUserActivity extends AppCompatActivity {
                                                                                     if (type == 3)
                                                                                         databaseReference.child("users").child(uid).child("email").setValue(newEmail);
                                                                                     else if (type == 2)
-                                                                                        databaseReference.child("cleaners").child("email").setValue(newEmail);
+                                                                                        databaseReference.child("cleaners").child(uid).child("email").setValue(newEmail);
                                                                                     else if (type == 1)
-                                                                                        databaseReference.child("admins").child("email").setValue(newEmail);
+                                                                                        databaseReference.child("admins").child(uid).child("email").setValue(newEmail);
                                                                                     emailView.setText(newEmail);
                                                                                     Toast.makeText(ViewUserActivity.this, "Email changed to " + newEmail, Toast.LENGTH_LONG).show();
+                                                                                    progressBar.setVisibility(View.GONE);
 
                                                                                 } else {
                                                                                     Toast.makeText(ViewUserActivity.this, "Error! Please Try again.", Toast.LENGTH_LONG).show();
+                                                                                    progressBar.setVisibility(View.GONE);
                                                                                 }
                                                                                 secondaryAuth.signOut();
                                                                                 app.delete();
@@ -310,6 +324,7 @@ public class ViewUserActivity extends AppCompatActivity {
                                                                             });
                                                             } else {
                                                                 Toast.makeText(ViewUserActivity.this, "Please Try again.", Toast.LENGTH_LONG).show();
+                                                                progressBar.setVisibility(View.GONE);
                                                                 secondaryAuth.signOut();
                                                                 app.delete();
                                                                 Intent i14 = null;
@@ -330,6 +345,7 @@ public class ViewUserActivity extends AppCompatActivity {
                                     });
                         } else {
                             Toast.makeText(ViewUserActivity.this, "Emails don't match! Please Try again.", Toast.LENGTH_LONG).show();
+                            progressBar.setVisibility(View.GONE);
                         }
                     }
                 });

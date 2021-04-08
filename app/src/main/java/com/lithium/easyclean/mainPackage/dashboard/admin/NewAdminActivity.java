@@ -44,7 +44,7 @@ public class NewAdminActivity extends AppCompatActivity {
             TextInputEditText passwordInput = findViewById(R.id.editPasswordValue);
             TextInputEditText nameInput = findViewById(R.id.editTextName);
             TextInputEditText emailInput = findViewById(R.id.editEmailValue);
-            if (nameInput != null && passwordInput != null && emailInput != null) {
+            if (!Objects.requireNonNull(nameInput.getText()).toString().isEmpty() && !Objects.requireNonNull(passwordInput.getText()).toString().isEmpty() && !Objects.requireNonNull(emailInput.getText()).toString().isEmpty()) {
                 name = Objects.requireNonNull(nameInput.getText()).toString();
                 password = Objects.requireNonNull(passwordInput.getText()).toString();
                 email = Objects.requireNonNull(emailInput.getText()).toString();
@@ -105,6 +105,10 @@ public class NewAdminActivity extends AppCompatActivity {
 
                             }
                         });
+            }
+
+            else {
+                Toast.makeText(this, "Please enter required details...", Toast.LENGTH_SHORT).show();
             }
 
         });

@@ -17,6 +17,7 @@ tools:context=".mainPackage.dashboard.admin.CleanerListActivity">
     app:layout_constraintTop_toTopOf="parent" />
 
 <Button
+    android:layout_margin="16dp"
     android:id="@+id/back"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

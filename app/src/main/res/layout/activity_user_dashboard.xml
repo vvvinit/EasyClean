@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color7"
-    tools:context=".mainPackage.dashboard.UserDashboardActivity">
+    tools:context=".mainPackage.dashboard.UserDashboardActivity"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp">
 
     <ProgressBar
         android:id="@+id/progressBar1"
@@ -28,7 +30,7 @@
         android:layout_margin="16dp"
         android:fontFamily="@font/aqbold"
         android:maxLines="1"
-        android:text="USER"
+        android:text="@string/user"
         android:textColor="@color/color1"
         android:textSize="50sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
@@ -47,14 +49,15 @@
         android:src="@drawable/ic_profile_default"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/profile" />
 
     <Button
         android:id="@+id/toilets_list_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/button_gradient"
-        android:text="TOILETS"
+        android:text="@string/toilets"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
