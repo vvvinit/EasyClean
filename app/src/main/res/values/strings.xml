@@ -15,5 +15,13 @@
     <string name="developed_by">Developed By</string>
     <string name="login">Login</string>
     <string name="menu">Menu</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="back">BACK</string>
+    <string name="plus">+</string>
+    <string name="edit_name">Edit name</string>
+    <string name="edit_email">Edit email</string>
+    <string name="delete">DELETE</string>
+    <string name="profile">Profile</string>
 
 </resources>
