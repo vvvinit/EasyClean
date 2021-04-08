@@ -23,5 +23,10 @@
     <string name="edit_email">Edit email</string>
     <string name="delete">DELETE</string>
     <string name="profile">Profile</string>
+    <string name="user">USER</string>
+    <string name="toilets">TOILETS</string>
+    <string name="users">USERS</string>
+    <string name="cleaners">CLEANERS</string>
+    <string name="admins">ADMINS</string>
 
 </resources>
