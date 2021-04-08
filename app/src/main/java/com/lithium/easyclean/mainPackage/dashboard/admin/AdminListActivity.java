@@ -2,9 +2,6 @@ package com.lithium.easyclean.mainPackage.dashboard.admin;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -12,83 +9,61 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.lithium.easyclean.R;
-import com.lithium.easyclean.mainPackage.dashboard.AdminDashboardActivity;
+import com.lithium.easyclean.mainPackage.dashboard.UsersAdapter;
+import com.lithium.easyclean.mainPackage.start.User;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class AdminListActivity extends AppCompatActivity {
 
-    private static final String TAG = "AdminListActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_list);
         Button backButton = findViewById(R.id.back);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(AdminListActivity.this, AdminDashboardActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+        backButton.setOnClickListener(v -> finish());
 
         Button addAdminButton = findViewById(R.id.add_admin_button);
-        addAdminButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(AdminListActivity.this, NewAdminActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        addAdminButton.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminListActivity.this, NewAdminActivity.class);
+            startActivity(intent);
+            finish();
         });
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        ListView listView = (ListView) findViewById(R.id.admin_list_view);
 
-        List<String> list = new ArrayList<>();
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
-        listView.setAdapter(arrayAdapter);
+        ArrayList<User> list = new ArrayList<>();
+
+        UsersAdapter adapter = new UsersAdapter(this, list);
+        ListView listView = findViewById(R.id.admin_list_view);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener((arg0, view, position, id) -> {
+            User user = (User) arg0.getItemAtPosition(position);
+//                Toast.makeText(UserListActivity.this, user.getEmail(), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(AdminListActivity.this, ViewUserActivity.class);
+            intent.putExtra("user", user);
+            intent.putExtra("type", 1);
+            startActivity(intent);
+            finish();
+
+        });
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
         DatabaseReference scoreRef = rootRef.child("admins");
-        ValueEventListener eventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String userId = ds.getKey();
-                    String score = ds.child("email").getValue(String.class);
-                    list.add(userId + " / " +  score);
-                    Log.d("TAG", userId + " / " +  score);
-                }
-                arrayAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-//                Log.d(TAG, task.getException().getMessage());
-            }
-        };
-
         ChildEventListener mChildEventListener = new ChildEventListener() {
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-                String userId = snapshot.getKey();
-                String score = snapshot.child("email").getValue(String.class);
-                list.add(userId + " / " + score);
-                Log.d("TAG", userId + " / " + score);
+                User user = snapshot.getValue(User.class);
+                assert user != null;
+                user.setUid(snapshot.getKey());
+                list.add(user);
 
-                arrayAdapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -98,12 +73,12 @@ public class AdminListActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                String userId = snapshot.getKey();
-                String score = snapshot.child("email").getValue(String.class);
-                list.remove(userId + " / " + score);
-                Log.d("TAG", userId + " / " + score);
+                User user = snapshot.getValue(User.class);
+                assert user != null;
+                user.setUid(snapshot.getKey());
+                list.remove(user);
 
-                arrayAdapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
             }
 
             @Override

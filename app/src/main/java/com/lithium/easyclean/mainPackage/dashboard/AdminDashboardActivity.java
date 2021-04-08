@@ -20,54 +20,51 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_dashboard);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
-        String s = firebaseUser.getDisplayName();
-        String userEmail = firebaseUser.getEmail();
+        assert firebaseUser != null;
 
-        ImageButton profileButton = (ImageButton) findViewById(R.id.profile_button);
+        ImageButton profileButton = findViewById(R.id.profile_button);
         profileButton.setOnClickListener(v -> {
-            profileButton.setImageDrawable(ResourcesCompat.getDrawable(this.getResources(), R.drawable.ic_profile_pressed,null));
-            Intent intent=new Intent(
+            profileButton.setImageDrawable(ResourcesCompat.getDrawable(this.getResources(), R.drawable.ic_profile_pressed, null));
+            Intent intent = new Intent(
                     AdminDashboardActivity.this, ProfileActivity.class);
-            intent.putExtra("type",0);
+            intent.putExtra("type", 0);
             startActivity(intent);
             finish();
         });
-        Button button = (Button)findViewById(R.id.sign_out_button);
+        Button button = findViewById(R.id.sign_out_button);
         button.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
-            Intent intent=new Intent(AdminDashboardActivity.this, EnterEmailActivity.class);
+            Intent intent = new Intent(AdminDashboardActivity.this, EnterEmailActivity.class);
             startActivity(intent);
             finish();
         });
-        Button button1 = (Button)findViewById(R.id.user_list_button);
+        Button button1 = findViewById(R.id.user_list_button);
         button1.setOnClickListener(v -> {
-            Intent intent=new Intent(AdminDashboardActivity.this, UserListActivity.class);
+            Intent intent = new Intent(AdminDashboardActivity.this, UserListActivity.class);
             startActivity(intent);
-            finish();
+
         });
 
-        Button button2 = (Button)findViewById(R.id.cleaner_list_button);
+        Button button2 = findViewById(R.id.cleaner_list_button);
         button2.setOnClickListener(v -> {
-            Intent intent=new Intent(AdminDashboardActivity.this, CleanerListActivity.class);
+            Intent intent = new Intent(AdminDashboardActivity.this, CleanerListActivity.class);
             startActivity(intent);
-            finish();
+
         });
 
-        Button button3 = (Button)findViewById(R.id.admin_list_button);
+        Button button3 = findViewById(R.id.admin_list_button);
         button3.setOnClickListener(v -> {
-            Intent intent=new Intent(AdminDashboardActivity.this, AdminListActivity.class);
+            Intent intent = new Intent(AdminDashboardActivity.this, AdminListActivity.class);
             startActivity(intent);
-            finish();
+
         });
-
-
-
 
 
     }

@@ -5,9 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lithium.easyclean.R;
 import com.lithium.easyclean.mainPackage.start.User;
@@ -15,10 +13,14 @@ import com.lithium.easyclean.mainPackage.start.User;
 import java.util.ArrayList;
 
 public class UsersAdapter extends ArrayAdapter<User> {
+
+
     public UsersAdapter(Context context, ArrayList<User> users) {
         super(context, 0, users);
     }
+
     User user;
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
@@ -28,8 +30,8 @@ public class UsersAdapter extends ArrayAdapter<User> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_user, parent, false);
         }
         // Lookup view for data population
-        TextView userName = (TextView) convertView.findViewById(R.id.userName);
-        TextView email = (TextView) convertView.findViewById(R.id.email);
+        TextView userName = convertView.findViewById(R.id.userName);
+        TextView email = convertView.findViewById(R.id.email);
         // Populate the data into the template view using the data object
         userName.setText(user.getName());
         email.setText(user.getEmail());

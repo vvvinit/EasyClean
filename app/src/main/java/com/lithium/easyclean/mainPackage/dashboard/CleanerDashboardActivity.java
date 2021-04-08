@@ -17,35 +17,33 @@ public class CleanerDashboardActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cleaner_dashboard);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
-        String s = firebaseUser.getDisplayName();
-        String userEmail = firebaseUser.getEmail();
+        assert firebaseUser != null;
 
-        ImageButton profileButton = (ImageButton) findViewById(R.id.profile_button);
+        ImageButton profileButton = findViewById(R.id.profile_button);
         profileButton.setOnClickListener(v -> {
-            profileButton.setImageDrawable(ResourcesCompat.getDrawable(this.getResources(), R.drawable.ic_profile_pressed,null));
-            Intent intent=new Intent(
+            profileButton.setImageDrawable(ResourcesCompat.getDrawable(this.getResources(), R.drawable.ic_profile_pressed, null));
+            Intent intent = new Intent(
                     CleanerDashboardActivity.this, ProfileActivity.class);
-            intent.putExtra("type",1);
+            intent.putExtra("type", 1);
             startActivity(intent);
             finish();
         });
 
 
-        Button button = (Button)findViewById(R.id.sign_out_button);
+        Button button = findViewById(R.id.sign_out_button);
         button.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
-            Intent intent=new Intent(CleanerDashboardActivity.this, EnterEmailActivity.class);
+            Intent intent = new Intent(CleanerDashboardActivity.this, EnterEmailActivity.class);
             startActivity(intent);
             finish();
         });
-
-
 
 
     }
