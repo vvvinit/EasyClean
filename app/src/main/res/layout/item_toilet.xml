@@ -5,18 +5,27 @@
     android:orientation="horizontal"
     android:weightSum="1">
 
+    <ImageView
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="1dp"
+        android:layout_width="wrap_content"
+        android:id="@+id/toilet_status"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_toilet_green"
+        android:gravity="center_horizontal"
+        android:contentDescription="toilet_status" />
+
+
     <TextView
         android:maxLines="1"
-        android:gravity="center_horizontal"
-        android:layout_marginStart="12dp"
         android:layout_marginEnd="1dp"
         style="@style/CustomTextView"
         android:background="@drawable/border_text_view"
-        android:id="@+id/userName"
+        android:id="@+id/toilet_name"
         android:layout_width="0dp"
         android:layout_weight="0.3"
         android:layout_height="match_parent"
-        android:text="@string/name"/>
+        android:text="ToiletName"/>
 
     <TextView
         android:maxLines="1"
@@ -24,10 +33,11 @@
         android:gravity="center_horizontal"
         style="@style/CustomTextView"
         android:background="@drawable/border_text_view"
-        android:id="@+id/email"
+        android:id="@+id/cleaner"
         android:layout_width="0dp"
         android:layout_weight="0.7"
         android:layout_height="match_parent"
-        android:text="@string/email"/>
+        android:text="Cleaner"/>
 
 </LinearLayout>
+

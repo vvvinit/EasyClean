@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,6 +30,7 @@ public class AdminListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_list);
         Button backButton = findViewById(R.id.back);
         backButton.setOnClickListener(v -> finish());
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
         Button addAdminButton = findViewById(R.id.add_admin_button);
         addAdminButton.setOnClickListener(v -> {
@@ -61,6 +64,7 @@ public class AdminListActivity extends AppCompatActivity {
                 User user = snapshot.getValue(User.class);
                 assert user != null;
                 user.setUid(snapshot.getKey());
+                if(!firebaseAuth.getCurrentUser().getUid().equals(snapshot.getKey()))
                 list.add(user);
 
                 adapter.notifyDataSetChanged();
