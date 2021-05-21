@@ -2,9 +2,12 @@ package com.lithium.easyclean.mainPackage.start;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -40,7 +43,9 @@ public class EnterPasswordActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.activity_enter_password);
         ProgressBar progressBar = findViewById(R.id.progressBar1);
 
@@ -55,13 +60,16 @@ public class EnterPasswordActivity extends AppCompatActivity {
         forgetPassword = findViewById(R.id.forget_password);
         passwordEditText.requestFocus();
 
+        Animation rotation = AnimationUtils.loadAnimation(EnterPasswordActivity.this, R.anim.rotate);
+        rotation.setFillAfter(true);
+
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle("Reset Password");
         builder.setMessage("Password reset link will be sent to " + email);
         builder.setPositiveButton("Confirm",
                 (dialog, which) -> {
-//                        if(email.equals("iit2019232@iiita.ac.in"))
                     FirebaseAuth.getInstance().sendPasswordResetEmail(email)
                             .addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
@@ -79,8 +87,6 @@ public class EnterPasswordActivity extends AppCompatActivity {
 
         passwordEditText.setOnEditorActionListener(
                 (v, actionId, event) -> {
-                    // Identifier of the action. This will be either the identifier you supplied,
-                    // or EditorInfo.IME_NULL if being called due to the enter key being pressed.
                     if (actionId == EditorInfo.IME_ACTION_DONE) {
                         progressBar.setVisibility(View.VISIBLE);
                         password = Objects.requireNonNull(passwordEditText.getText()).toString();
@@ -91,8 +97,6 @@ public class EnterPasswordActivity extends AppCompatActivity {
                             mAuth.signInWithEmailAndPassword(email, password)
                                     .addOnCompleteListener(EnterPasswordActivity.this, task -> {
                                         if (task.isSuccessful()) {
-                                            // Sign in success, update UI with the signed-in user's information
-//                                        Log.d(TAG, "signInWithEmail:success");
                                             FirebaseUser user = mAuth.getCurrentUser();
 //                                        updateUI(user);
 
@@ -151,8 +155,6 @@ public class EnterPasswordActivity extends AppCompatActivity {
 
 
                                         } else {
-                                            // If sign in fails, display a message to the user.
-//                                        Log.w(TAG, "signInWithEmail:failure", task.getException());
                                             Toast.makeText(EnterPasswordActivity.this, "Authentication failed.",
                                                     Toast.LENGTH_SHORT).show();
                                             progressBar.setVisibility(View.GONE);
@@ -162,26 +164,27 @@ public class EnterPasswordActivity extends AppCompatActivity {
                         }
                         return true;
                     }
-                    // Return true if you have consumed the action, else false.
                     return false;
                 });
 
         loginButton.setOnClickListener(v -> {
+            loginButton.startAnimation(rotation);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    loginButton.clearAnimation();
+                }
+            }, 1000);
             progressBar.setVisibility(View.VISIBLE);
             password = Objects.requireNonNull(passwordEditText.getText()).toString();
             if (TextUtils.isEmpty(password)) {
-                Toast.makeText(getApplicationContext(), "Please enter password...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Please enter password", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
             } else {
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(EnterPasswordActivity.this, task -> {
                             if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-//                                        Log.d(TAG, "signInWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
-//                                        updateUI(user);
-
-
                                 assert user != null;
                                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("admins").child(user.getUid());
 
@@ -236,8 +239,6 @@ public class EnterPasswordActivity extends AppCompatActivity {
 
 
                             } else {
-                                // If sign in fails, display a message to the user.
-//                                        Log.w(TAG, "signInWithEmail:failure", task.getException());
                                 Toast.makeText(EnterPasswordActivity.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
@@ -247,6 +248,11 @@ public class EnterPasswordActivity extends AppCompatActivity {
             }
         });
 
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 }

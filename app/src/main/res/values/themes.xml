@@ -13,8 +13,20 @@
         <item name="colorSecondary">@color/color1</item>
         <item name="android:colorAccent">@color/color6</item>
         <item name="android:navigationBarColor">@color/color3</item>
-        <item name="android:fontFamily">@font/century</item>
+        <item name="android:fontFamily">@font/montserrat</item>
         <!-- Customize your theme here. -->
+    </style>
+
+    <style name="MyButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="shapeAppearanceOverlay">@style/MyShapeAppearance</item>
+    </style>
+
+    <style name="MyShapeAppearance">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerFamilyTopRight">cut</item>
+        <item name="cornerFamilyBottomRight">cut</item>
+        <item name="cornerSizeTopLeft">32dp</item>
+        <item name="cornerSizeBottomLeft">32dp</item>
     </style>
 
     <style name="CustomTextView" parent="@android:style/TextAppearance.Widget.TextView">
@@ -22,4 +34,5 @@
         <item name="android:textColor">@color/color1</item>
         <item name="android:textStyle">normal</item>
     </style>
+
 </resources>

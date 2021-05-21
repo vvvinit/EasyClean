@@ -35,9 +35,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBar1" />
 
-
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_margin="24dp"
+        android:layout_margin="35dp"
         android:id="@+id/layoutUsernameInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,9 +44,10 @@
         app:layout_constraintBottom_toTopOf="@+id/login_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar1">
+        app:layout_constraintTop_toBottomOf="@+id/progressBar1" >
 
         <com.google.android.material.textfield.TextInputEditText
+
             android:id="@+id/editTextUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,7 +55,8 @@
             android:background="@drawable/custom_edittext"
             android:imeOptions="actionDone"
             android:inputType="text"
-            android:textColor="@color/color3" />
+            android:textColor="@color/color3"
+            android:textStyle="bold"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageButton
@@ -70,7 +71,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBar1"
         android:contentDescription="@string/login" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

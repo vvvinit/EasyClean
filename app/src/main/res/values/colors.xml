@@ -7,13 +7,15 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="color1">#311d3f</color>
+    <color name="color1">#001b48</color>
     <color name="color2">#88304e</color>
     <color name="color3">#521262</color>
     <color name="color4">#6639a6</color>
     <color name="color5">#3490de</color>
     <color name="color6">#fdfdfd</color>
-    <color name="color7">#9ddfd3</color>
+    <color name="color7">#d6e8ee</color>
+
+    <color name="profile_color">#521262</color>
 
     <color name="default_button">
         <gradient xmlns:android="http://schemas.android.com/apk/res/android"

@@ -35,6 +35,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.activity_splash);
 
         ProgressBar progressBar = findViewById(R.id.progressBar1);
@@ -147,5 +148,11 @@ public class SplashActivity extends AppCompatActivity {
 
 
         }, 0);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 }

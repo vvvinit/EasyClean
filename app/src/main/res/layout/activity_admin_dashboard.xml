@@ -7,7 +7,7 @@
     android:background="@color/color7"
     tools:context=".mainPackage.dashboard.AdminDashboardActivity"
     android:paddingStart="16dp"
-    android:paddingEnd="16dp">
+    android:paddingEnd="16dp" >
 
     <ProgressBar
         android:id="@+id/progressBar1"
@@ -21,8 +21,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"/>
-
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/logo_text"
@@ -38,7 +37,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/profile_button"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <ImageButton
         android:backgroundTint="@color/color7"
@@ -57,7 +55,7 @@
         android:id="@+id/toilets_list_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/button_gradient"
+        android:background="@drawable/custom_edittext"
         android:text="@string/toilets"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,34 +71,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toilets_list_button">
 
-
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/user_list_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_gradient"
-            android:text="@string/users" />
+            android:text="@string/users"
+            android:background="@drawable/custom_edittext" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/cleaner_list_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_gradient"
-            android:text="@string/cleaners" />
+            android:text="@string/cleaners"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:background="@drawable/custom_edittext" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/admin_list_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_gradient"
-            android:text="@string/admins" />
+            android:text="@string/admins"
+            android:background="@drawable/custom_edittext" />
     </LinearLayout>
 
     <Button
         android:id="@+id/sign_out_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/button_gradient"
+        android:background="@drawable/custom_edittext"
         android:text="@string/sign_out"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -112,7 +111,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.25" />
+        app:layout_constraintGuide_begin="183dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

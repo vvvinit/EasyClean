@@ -29,9 +29,13 @@ public class ToiletListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.activity_toilet_list);
         Button backButton = findViewById(R.id.back);
-        backButton.setOnClickListener(v -> finish());
+        backButton.setOnClickListener(v -> {
+            finish();
+            overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+        });
 
 //        Button addToiletButton = findViewById(R.id.add_toilet_button);
 //        addToiletButton.setOnClickListener(v -> {
@@ -109,5 +113,11 @@ public class ToiletListActivity extends AppCompatActivity {
         };
         scoreRef.addChildEventListener(mChildEventListener);
 //        scoreRef.addListenerForSingleValueEvent(eventListener);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 }

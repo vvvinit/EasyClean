@@ -1,34 +1,35 @@
 package com.lithium.easyclean.mainPackage.dashboard.admin;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
+import android.app.ActionBar;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.lithium.easyclean.R;
 import com.lithium.easyclean.mainPackage.start.User;
+
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ViewUserActivity extends AppCompatActivity {
     private static final String TAG = "ViewUserActivity";
@@ -38,13 +39,14 @@ public class ViewUserActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.activity_view_user);
         ProgressBar progressBar = findViewById(R.id.progressBar1);
         Intent i = getIntent();
         User user = (User) i.getSerializableExtra("user");
         type = i.getIntExtra("type", 3);
         String uid = user.getUid();
-        String email = user.getEmail();
+        AtomicReference<String> email = new AtomicReference<>(user.getEmail());
         String name = user.getName();
         String password = user.getPassword();
         TextView uidView = findViewById(R.id.uid);
@@ -53,7 +55,7 @@ public class ViewUserActivity extends AppCompatActivity {
         TextView userTypeView = findViewById(R.id.user_type);
         uidView.setText(uid);
         nameView.setText(name);
-        emailView.setText(email);
+        emailView.setText(email.get());
         if (type == 3) userTypeView.setText("USER");
         else if (type == 2) userTypeView.setText("CLEANER");
         else if (type == 1) userTypeView.setText("ADMIN");
@@ -75,9 +77,9 @@ public class ViewUserActivity extends AppCompatActivity {
 // Get the database for the other app.
                         FirebaseAuth secondaryAuth = FirebaseAuth.getInstance(app);
                         AuthCredential credential = EmailAuthProvider
-                                .getCredential(email, password);
+                                .getCredential(email.get(), password);
 
-                        secondaryAuth.signInWithEmailAndPassword(email, password)
+                        secondaryAuth.signInWithEmailAndPassword(email.get(), password)
                                 .addOnCompleteListener(ViewUserActivity.this, task -> {
                                     if (task.isSuccessful()) {
                                         // Sign in success, update UI with the signed-in user's information
@@ -114,6 +116,7 @@ public class ViewUserActivity extends AppCompatActivity {
                                         Toast.makeText(ViewUserActivity.this, "Deletion failed.",
                                                 Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
+                                        app.delete();
                                     }
                                 });
 
@@ -126,6 +129,7 @@ public class ViewUserActivity extends AppCompatActivity {
 
         Button backButton = findViewById(R.id.back);
         backButton.setOnClickListener(v -> {
+
             Intent i12 = null;
             if (type == 3) i12 = new Intent(ViewUserActivity.this, UserListActivity.class);
             else if (type == 2) i12 = new Intent(ViewUserActivity.this, CleanerListActivity.class);
@@ -149,273 +153,270 @@ public class ViewUserActivity extends AppCompatActivity {
 
 
 
+final Dialog nameDialog = new Dialog(ViewUserActivity.this);
+        nameDialog.setContentView(R.layout.name_dialog_layout);
+        nameDialog.setCancelable(true);
 
 
-        ImageButton changeNameButton = findViewById(R.id.edit_name);
-        changeNameButton.setOnClickListener(v -> {
 
-            AlertDialog.Builder nameDialog = new AlertDialog.Builder(this);
-            nameDialog.setCancelable(true);
-            nameDialog.setTitle("Change Name");
-            EditText nameInput = new EditText(this);
-            nameInput.setHint("Enter new name");
-            nameDialog.setView(nameInput);
-            nameDialog.setPositiveButton("Confirm",
-                    (dialog, which) -> {
-                        progressBar.setVisibility(View.VISIBLE);
-                        String newName = nameInput.getText().toString();
+        TextInputEditText nameInput = nameDialog.findViewById(R.id.change_name);
+        Button confirmName = nameDialog.findViewById(R.id.confirm);
+        Button cancelName = nameDialog.findViewById(R.id.cancel);
+        nameDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        nameDialog.getWindow().setLayout(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT);
+
+        confirmName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                String newName = nameInput.getText().toString();
+                FirebaseOptions options = new FirebaseOptions.Builder()
+                        .setApplicationId("1:16498016959:android:f5512cb564ebd13fff7c0a") // Required for Analytics.
+                        .setApiKey("AIzaSyB9dqPlUm9hC6dUecxyV5KiGwlKIf1YIJQ") // Required for Auth.
+                        .setDatabaseUrl("https://easyclean-se-default-rtdb.firebaseio.com/") // Required for RTDB.
+                        .build();
+                FirebaseApp.initializeApp(ViewUserActivity.this /* Context */, options, "secondary");
+
+// Retrieve my other app.
+                FirebaseApp app = FirebaseApp.getInstance("secondary");
+// Get the database for the other app.
+                FirebaseAuth secondaryAuth = FirebaseAuth.getInstance(app);
+
+                secondaryAuth.signInWithEmailAndPassword(email.get(), password)
+                        .addOnCompleteListener(ViewUserActivity.this, task -> {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+//                                        Log.d(TAG, "signInWithEmail:success");
+                                FirebaseUser secUser = secondaryAuth.getCurrentUser();
+                                // Prompt the user to re-provide their sign-in credentials
+                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(newName)
+                                        .build();
+                                if (secUser != null)
+                                    secUser.updateProfile(profileUpdates).addOnCompleteListener(task12 -> {
+                                        if (task12.isSuccessful()) {
+
+                                            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                                            DatabaseReference databaseReference = firebaseDatabase.getReference();
+                                            if (type == 3)
+                                                databaseReference.child("users").child(uid).child("name").setValue(newName);
+                                            else if (type == 2)
+                                                databaseReference.child("cleaners").child(uid).child("name").setValue(newName);
+                                            else if (type == 1)
+                                                databaseReference.child("admins").child(uid).child("name").setValue(newName);
+                                            nameView.setText(newName);
+                                            Toast.makeText(ViewUserActivity.this, "Name changed to " + newName, Toast.LENGTH_LONG).show();
+                                            progressBar.setVisibility(View.GONE);
+                                            app.delete();
+                                        } else {
+                                            Toast.makeText(ViewUserActivity.this, "Name update failed, please try again", Toast.LENGTH_LONG).show();
+                                            progressBar.setVisibility(View.GONE);
+                                            secondaryAuth.signOut();
+                                            app.delete();
+                                            Intent i13 = null;
+                                            if (type == 3)
+                                                i13 = new Intent(ViewUserActivity.this, UserListActivity.class);
+                                            else if (type == 2)
+                                                i13 = new Intent(ViewUserActivity.this, CleanerListActivity.class);
+                                            else if (type == 1)
+                                                i13 = new Intent(ViewUserActivity.this, AdminListActivity.class);
+                                            startActivity(i13);
+                                            finish();
+                                        }
+                                    });
+
+                            } else {
+                                // If sign in fails, display a message to the user.
+//                                        Log.w(TAG, "signInWithEmail:failure", task.getException());
+                                Toast.makeText(ViewUserActivity.this, "Name change failed.",
+                                        Toast.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        });
+
+                nameInput.setText("");
+                nameDialog.dismiss();
+            }
+        });
+
+            cancelName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    nameInput.setText("");
+                    nameDialog.dismiss();
+                }
+            });
+
+
+        Button changeNameButton = findViewById(R.id.edit_name);
+        changeNameButton.setOnClickListener(g -> {
+            nameDialog.show();
+        });
+
+
+
+        final Dialog emailDialog = new Dialog(ViewUserActivity.this);
+        emailDialog.setContentView(R.layout.user_email_dialog_layout);
+        emailDialog.setCancelable(true);
+
+        TextInputEditText emailInput1 = emailDialog.findViewById(R.id.change_email1);
+        TextInputEditText emailInput2 = emailDialog.findViewById(R.id.change_email2);
+        Button confirmEmail = emailDialog.findViewById(R.id.confirm);
+        Button cancelEmail = emailDialog.findViewById(R.id.cancel);
+        emailDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        emailDialog.getWindow().setLayout(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT);
+
+
+        confirmEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                if (emailInput1.getText().toString().equals("") || emailInput2.getText().toString().equals("")) {
+                    Toast.makeText(ViewUserActivity.this, "Email cannot be empty", Toast.LENGTH_LONG).show();
+                    progressBar.setVisibility(View.GONE);
+                } else {
+
+                    String newEmail = emailInput1.getText().toString();
+                    if (newEmail.equals(emailInput2.getText().toString())) {
+
                         FirebaseOptions options = new FirebaseOptions.Builder()
                                 .setApplicationId("1:16498016959:android:f5512cb564ebd13fff7c0a") // Required for Analytics.
                                 .setApiKey("AIzaSyB9dqPlUm9hC6dUecxyV5KiGwlKIf1YIJQ") // Required for Auth.
                                 .setDatabaseUrl("https://easyclean-se-default-rtdb.firebaseio.com/") // Required for RTDB.
                                 .build();
-                        FirebaseApp.initializeApp(ViewUserActivity.this /* Context */, options, "secondary");
+                        FirebaseApp.initializeApp(ViewUserActivity.this /* Context */, options, "secondary2");
 
 // Retrieve my other app.
-                        FirebaseApp app = FirebaseApp.getInstance("secondary");
+                        FirebaseApp app = FirebaseApp.getInstance("secondary2");
 // Get the database for the other app.
                         FirebaseAuth secondaryAuth = FirebaseAuth.getInstance(app);
+                        secondaryAuth.fetchSignInMethodsForEmail(newEmail)
+                                .addOnCompleteListener(task1 -> {
+                                    if (task1.isSuccessful()) {
 
-                        secondaryAuth.signInWithEmailAndPassword(email, password)
+                        secondaryAuth.signInWithEmailAndPassword(email.get(), password)
                                 .addOnCompleteListener(ViewUserActivity.this, task -> {
                                     if (task.isSuccessful()) {
                                         // Sign in success, update UI with the signed-in user's information
 //                                        Log.d(TAG, "signInWithEmail:success");
                                         FirebaseUser secUser = secondaryAuth.getCurrentUser();
+                                        AuthCredential credential1 = EmailAuthProvider
+                                                .getCredential(email.get(), password); // Current Login Credentials \\
                                         // Prompt the user to re-provide their sign-in credentials
-                                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                                .setDisplayName(newName)
-                                                .build();
                                         if (secUser != null)
-                                            secUser.updateProfile(profileUpdates).addOnCompleteListener(task12 -> {
-                                                if (task12.isSuccessful()) {
+                                            secUser.reauthenticate(credential1)
+                                                    .addOnCompleteListener(task13 -> {
+                                                        if (task13.isSuccessful()) {
+                                                            Log.d(TAG, "User re-authenticated.");
+                                                            //Now change your email address \\
+                                                            //----------------Code for Changing Email Address----------\\
+                                                            FirebaseUser secUser1 = secondaryAuth.getCurrentUser();
+                                                            if (secUser1 != null)
+                                                                secUser1.updateEmail(newEmail)
+                                                                        .addOnCompleteListener(task131 -> {
+                                                                            if (task131.isSuccessful()) {
+                                                                                Log.d(TAG, "User email address updated.");
 
-                                                    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                                                    DatabaseReference databaseReference = firebaseDatabase.getReference();
-                                                    if (type == 3)
-                                                        databaseReference.child("users").child(uid).child("name").setValue(newName);
-                                                    else if (type == 2)
-                                                        databaseReference.child("cleaners").child(uid).child("name").setValue(newName);
-                                                    else if (type == 1)
-                                                        databaseReference.child("admins").child(uid).child("name").setValue(newName);
-                                                    nameView.setText(newName);
-                                                    Toast.makeText(ViewUserActivity.this, "Name changed to " + newName, Toast.LENGTH_LONG).show();
-                                                    progressBar.setVisibility(View.GONE);
-                                                } else {
-                                                    Toast.makeText(ViewUserActivity.this, "Name update failed, please try again", Toast.LENGTH_LONG).show();
-                                                    progressBar.setVisibility(View.GONE);
-                                                    secondaryAuth.signOut();
-                                                    app.delete();
-                                                    Intent i13 = null;
-                                                    if (type == 3)
-                                                        i13 = new Intent(ViewUserActivity.this, UserListActivity.class);
-                                                    else if (type == 2)
-                                                        i13 = new Intent(ViewUserActivity.this, CleanerListActivity.class);
-                                                    else if (type == 1)
-                                                        i13 = new Intent(ViewUserActivity.this, AdminListActivity.class);
-                                                    startActivity(i13);
-                                                    finish();
-                                                }
-                                            });
+                                                                                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                                                                                DatabaseReference databaseReference = firebaseDatabase.getReference();
+                                                                                if (type == 3)
+                                                                                    databaseReference.child("users").child(uid).child("email").setValue(newEmail);
+                                                                                else if (type == 2)
+                                                                                    databaseReference.child("cleaners").child(uid).child("email").setValue(newEmail);
+                                                                                else if (type == 1)
+                                                                                    databaseReference.child("admins").child(uid).child("email").setValue(newEmail);
+                                                                                emailView.setText(newEmail);
 
-                                    } else {
-                                        // If sign in fails, display a message to the user.
-//                                        Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                        Toast.makeText(ViewUserActivity.this, "Name change failed.",
-                                                Toast.LENGTH_SHORT).show();
+                                                                                Toast.makeText(ViewUserActivity.this, "Email changed to " + newEmail, Toast.LENGTH_LONG).show();
+                                                                                progressBar.setVisibility(View.GONE);
+                                                                                app.delete();
+                                                                                email.set(newEmail);
+                                                                            } else {
+                                                                                Toast.makeText(ViewUserActivity.this, "Error! Please Try again.", Toast.LENGTH_LONG).show();
+                                                                                progressBar.setVisibility(View.GONE);
+                                                                                app.delete();
+                                                                                Intent i14 = null;
+                                                                                if (type == 3)
+                                                                                    i14 = new Intent(ViewUserActivity.this, UserListActivity.class);
+                                                                                else if (type == 2)
+                                                                                    i14 = new Intent(ViewUserActivity.this, CleanerListActivity.class);
+                                                                                else if (type == 1)
+                                                                                    i14 = new Intent(ViewUserActivity.this, AdminListActivity.class);
+                                                                                startActivity(i14);
+                                                                                finish();
+                                                                            }
+                                                                            secondaryAuth.signOut();
+                                                                            app.delete();
+                                                                        });
+                                                        } else {
+                                                            Toast.makeText(ViewUserActivity.this, "Please Try again.", Toast.LENGTH_LONG).show();
+                                                            progressBar.setVisibility(View.GONE);
+                                                            secondaryAuth.signOut();
+                                                            app.delete();
+                                                            Intent i14 = null;
+                                                            if (type == 3)
+                                                                i14 = new Intent(ViewUserActivity.this, UserListActivity.class);
+                                                            else if (type == 2)
+                                                                i14 = new Intent(ViewUserActivity.this, CleanerListActivity.class);
+                                                            else if (type == 1)
+                                                                i14 = new Intent(ViewUserActivity.this, AdminListActivity.class);
+                                                            startActivity(i14);
+                                                            finish();
+                                                        }
+                                                    });
+
+
+                                    }
+
+                                    else {
+                                        Toast.makeText(ViewUserActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+                                        app.delete();
                                         progressBar.setVisibility(View.GONE);
                                     }
                                 });
+                                    } else {
+                                        app.delete();
+                                        progressBar.setVisibility(View.GONE);
+                                        try {
+                                            throw Objects.requireNonNull(task1.getException());
+                                        } catch (FirebaseAuthInvalidCredentialsException e) {
+                                            Toast.makeText(ViewUserActivity.this, "Invalid Email!", Toast.LENGTH_SHORT).show();
+                                        } catch (Exception e) {
+                                            Toast.makeText(ViewUserActivity.this, e.toString(), Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
 
-                    });
 
-            nameDialog.setNegativeButton("Cancel", (dialog, which) -> {
-            });
+                    } else {
+                        Toast.makeText(ViewUserActivity.this, "Emails don't match! Please Try again.", Toast.LENGTH_LONG).show();
+                        progressBar.setVisibility(View.GONE);
+                    }
+                }
 
-            AlertDialog nameAlert = nameDialog.create();
-            changeNameButton.setImageDrawable(ResourcesCompat.getDrawable(this.getResources(), R.drawable.ic_edit_pressed, null));
-            nameAlert.show();
+                emailInput1.setText("");
+                emailInput2.setText("");
+                emailDialog.dismiss();
+            }
         });
 
-        LinearLayout layout = new LinearLayout(this);
-        layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setGravity(LinearLayout.TEXT_ALIGNMENT_CENTER);
-        EditText emailInput = new EditText(this);
-        emailInput.setHint("Enter new email");
-        EditText email2Input = new EditText(this);
-        email2Input.setHint("Confirm email");
-        layout.addView(emailInput);
-        layout.addView(email2Input);
+     cancelEmail.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View v) {
+             emailInput1.setText("");
+             emailInput2.setText("");
+             emailDialog.dismiss();
+         }
+     });
 
 
-
-
-
-        ImageButton changeEmailButton = findViewById(R.id.edit_email);
-        changeEmailButton.setOnClickListener(v -> {
-
-            AlertDialog.Builder emailDialog = new AlertDialog.Builder(this);
-            emailDialog.setCancelable(true);
-            emailDialog.setTitle("Change Email");
-            emailDialog.setView(layout);
-            emailDialog.setPositiveButton("Confirm",
-                    new DialogInterface.OnClickListener() {
-                        String email;
-
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            progressBar.setVisibility(View.VISIBLE);
-                            String newEmail = emailInput.getText().toString();
-                            if (newEmail.equals(email2Input.getText().toString())) {
-
-                                FirebaseOptions options = new FirebaseOptions.Builder()
-                                        .setApplicationId("1:16498016959:android:f5512cb564ebd13fff7c0a") // Required for Analytics.
-                                        .setApiKey("AIzaSyB9dqPlUm9hC6dUecxyV5KiGwlKIf1YIJQ") // Required for Auth.
-                                        .setDatabaseUrl("https://easyclean-se-default-rtdb.firebaseio.com/") // Required for RTDB.
-                                        .build();
-                                FirebaseApp.initializeApp(ViewUserActivity.this /* Context */, options, "secondary");
-
-// Retrieve my other app.
-                                FirebaseApp app = FirebaseApp.getInstance("secondary");
-// Get the database for the other app.
-                                FirebaseAuth secondaryAuth = FirebaseAuth.getInstance(app);
-
-                                secondaryAuth.signInWithEmailAndPassword(email, password)
-                                        .addOnCompleteListener(ViewUserActivity.this, task -> {
-                                            if (task.isSuccessful()) {
-                                                // Sign in success, update UI with the signed-in user's information
-//                                        Log.d(TAG, "signInWithEmail:success");
-                                                FirebaseUser secUser = secondaryAuth.getCurrentUser();
-                                                AuthCredential credential1 = EmailAuthProvider
-                                                        .getCredential(email, password); // Current Login Credentials \\
-                                                // Prompt the user to re-provide their sign-in credentials
-                                                if (secUser != null)
-                                                    secUser.reauthenticate(credential1)
-                                                            .addOnCompleteListener(task13 -> {
-                                                                if (task13.isSuccessful()) {
-                                                                    Log.d(TAG, "User re-authenticated.");
-                                                                    //Now change your email address \\
-                                                                    //----------------Code for Changing Email Address----------\\
-                                                                    FirebaseUser secUser1 = FirebaseAuth.getInstance().getCurrentUser();
-                                                                    if (secUser1 != null)
-                                                                        secUser1.updateEmail(newEmail)
-                                                                                .addOnCompleteListener(task131 -> {
-                                                                                    if (task131.isSuccessful()) {
-                                                                                        Log.d(TAG, "User email address updated.");
-
-                                                                                        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                                                                                        DatabaseReference databaseReference = firebaseDatabase.getReference();
-                                                                                        if (type == 3)
-                                                                                            databaseReference.child("users").child(uid).child("email").setValue(newEmail);
-                                                                                        else if (type == 2)
-                                                                                            databaseReference.child("cleaners").child(uid).child("email").setValue(newEmail);
-                                                                                        else if (type == 1)
-                                                                                            databaseReference.child("admins").child(uid).child("email").setValue(newEmail);
-                                                                                        emailView.setText(newEmail);
-                                                                                        Toast.makeText(ViewUserActivity.this, "Email changed to " + newEmail, Toast.LENGTH_LONG).show();
-                                                                                        progressBar.setVisibility(View.GONE);
-
-                                                                                    } else {
-                                                                                        Toast.makeText(ViewUserActivity.this, "Error! Please Try again.", Toast.LENGTH_LONG).show();
-                                                                                        progressBar.setVisibility(View.GONE);
-                                                                                    }
-                                                                                    secondaryAuth.signOut();
-                                                                                    app.delete();
-                                                                                    Intent i14 = null;
-                                                                                    if (type == 3)
-                                                                                        i14 = new Intent(ViewUserActivity.this, UserListActivity.class);
-                                                                                    else if (type == 2)
-                                                                                        i14 = new Intent(ViewUserActivity.this, CleanerListActivity.class);
-                                                                                    else if (type == 1)
-                                                                                        i14 = new Intent(ViewUserActivity.this, AdminListActivity.class);
-                                                                                    startActivity(i14);
-                                                                                    finish();
-
-                                                                                });
-                                                                } else {
-                                                                    Toast.makeText(ViewUserActivity.this, "Please Try again.", Toast.LENGTH_LONG).show();
-                                                                    progressBar.setVisibility(View.GONE);
-                                                                    secondaryAuth.signOut();
-                                                                    app.delete();
-                                                                    Intent i14 = null;
-                                                                    if (type == 3)
-                                                                        i14 = new Intent(ViewUserActivity.this, UserListActivity.class);
-                                                                    else if (type == 2)
-                                                                        i14 = new Intent(ViewUserActivity.this, CleanerListActivity.class);
-                                                                    else if (type == 1)
-                                                                        i14 = new Intent(ViewUserActivity.this, AdminListActivity.class);
-                                                                    startActivity(i14);
-                                                                    finish();
-                                                                }
-
-                                                            });
-
-
-                                            }
-                                        });
-                            } else {
-                                Toast.makeText(ViewUserActivity.this, "Emails don't match! Please Try again.", Toast.LENGTH_LONG).show();
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        }
-                    });
-
-
-            emailDialog.setNegativeButton("Cancel", (dialog, which) -> {
-            });
-            AlertDialog emailAlert = emailDialog.create();
-            changeEmailButton.setImageDrawable(ResourcesCompat.getDrawable(this.getResources(), R.drawable.ic_edit_pressed, null));
-            emailAlert.show();
-        });
-
-
-//            secondaryAuth.createUserWithEmailAndPassword(email, password)
-//                    .addOnCompleteListener(ViewUserActivity.this, new OnCompleteListener<AuthResult>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<AuthResult> task) {
-//                            if (task.isSuccessful()) {
-//
-//                                // Sign in success, update UI with the signed-in user's information
-//
-//                                FirebaseUser user = secondaryAuth.getCurrentUser();
-//                                String uid = user.getUid();
-//
-//                                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-//                                DatabaseReference databaseReference = firebaseDatabase.getReference();
-//                                databaseReference.child("users").child(uid).removeValue();
-//
-//                                user.updateProfile(profileUpdates)
-//                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                            @Override
-//                                            public void onComplete(@NonNull Task<Void> task) {
-//                                                if (task.isSuccessful()) {
-//                                                    Toast.makeText(NewUserActivity.this, "Profile created!", Toast.LENGTH_SHORT).show();
-//                                                    secondaryAuth.signOut();
-//                                                    app.delete();
-//                                                    Intent intent=new Intent(NewUserActivity.this, UserListActivity.class);
-//                                                    startActivity(intent);
-//                                                    finish();
-//
-//                                                }
-//                                            }
-//                                        });
-//
-//
-//
-//                            } else {
-//                                // If sign in fails, display a message to the user.
-//
-//                                Toast.makeText(NewUserActivity.this, "Authentication failed.",
-//                                        Toast.LENGTH_SHORT).show();
-//
-//                                Intent intent=new Intent(NewUserActivity.this, NewUserActivity.class);
-//                                startActivity(intent);
-//                                finish();
-//
-//                            }
-//                        }
-//                    });
-
+     Button editEmail = findViewById(R.id.edit_email);
+     editEmail.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View v) {
+             emailDialog.show();
+         }
+     });
     }
 
     @Override

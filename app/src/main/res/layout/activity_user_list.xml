@@ -1,38 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color7"
-    tools:context=".mainPackage.dashboard.admin.UserListActivity">
+    tools:context=".mainPackage.dashboard.admin.UserListActivity"
+    android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/user_list_view"
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_margin="16dp"
+        android:layout_marginTop="1dp"
+        android:id="@+id/layoutUsernameInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@color/color7"
+        android:hint="Search" >
+
+        <com.google.android.material.textfield.TextInputEditText
+
+            android:id="@+id/etSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_edittext"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:textColor="@color/color3"
+            android:textStyle="bold"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ListView
+        android:divider="@color/color3"
+        android:dividerHeight="0.5dp"
+        android:padding="2dp"
+        android:background="@drawable/border_text_view"
+        android:id="@+id/user_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <Button
+        android:id="@+id/add_user_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_edittext"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/plus" />
 
     <Button
         android:layout_margin="16dp"
         android:id="@+id/back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/back"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:background="@drawable/custom_edittext"
+        android:text="@string/back" />
 
-    <Button
-        android:id="@+id/add_user_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="@string/plus"
-        app:layout_constraintBottom_toTopOf="@+id/back"
-        app:layout_constraintStart_toStartOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -7,8 +7,7 @@
     android:background="@color/color7"
     tools:context=".mainPackage.dashboard.CleanerDashboardActivity"
     android:paddingStart="16dp"
-    android:paddingEnd="16dp"
-    >
+    android:paddingEnd="16dp" >
 
     <ProgressBar
         android:id="@+id/progressBar1"
@@ -39,7 +38,6 @@
         app:layout_constraintStart_toEndOf="@+id/profile_button"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <ImageButton
         android:backgroundTint="@color/color7"
         android:id="@+id/profile_button"
@@ -63,8 +61,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
-
-
     <LinearLayout
         android:id="@+id/linearLayout6"
         android:layout_width="match_parent"
@@ -74,28 +70,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toilets_list_button">
-
-
-<!--        <Button-->
-<!--            android:id="@+id/user_list_button"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="@drawable/button_gradient"-->
-<!--            android:text="USERS" />-->
-
-<!--        <Button-->
-<!--            android:id="@+id/cleaner_list_button"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="@drawable/button_gradient"-->
-<!--            android:text="CLEANERS" />-->
-
-<!--        <Button-->
-<!--            android:id="@+id/admin_list_button"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="@drawable/button_gradient"-->
-<!--            android:text="ADMINS" />-->
     </LinearLayout>
 
     <Button
@@ -115,7 +89,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.25" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

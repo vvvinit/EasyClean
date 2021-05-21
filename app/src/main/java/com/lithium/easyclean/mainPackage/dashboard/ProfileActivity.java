@@ -1,23 +1,19 @@
 package com.lithium.easyclean.mainPackage.dashboard;
 
-import android.content.DialogInterface;
+import android.app.ActionBar;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.lithium.easyclean.R;
 import com.lithium.easyclean.mainPackage.start.EnterEmailActivity;
 
+import java.util.Objects;
+
 public class ProfileActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
@@ -37,6 +35,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.activity_profile);
         ProgressBar progressBar = findViewById(R.id.progressBar1);
         Intent i = getIntent();
@@ -46,10 +45,14 @@ public class ProfileActivity extends AppCompatActivity {
         assert firebaseUser != null;
         String s = firebaseUser.getDisplayName();
         String userEmail = firebaseUser.getEmail();
+        String userUid = firebaseUser.getUid();
+
         TextView textView = findViewById(R.id.name);
         TextView textView1 = findViewById(R.id.email);
+        TextView textView2 = findViewById(R.id.uid);
         textView.setText(s);
         textView1.setText(userEmail);
+        textView2.setText(userUid);
 
         Button button = findViewById(R.id.sign_out_button);
         button.setOnClickListener(v -> {
@@ -59,16 +62,32 @@ public class ProfileActivity extends AppCompatActivity {
             finish();
         });
 
-        AlertDialog.Builder nameDialog = new AlertDialog.Builder(this);
+
+
+
+
+        final Dialog nameDialog = new Dialog(ProfileActivity.this);
+        nameDialog.setContentView(R.layout.name_dialog_layout);
         nameDialog.setCancelable(true);
-        nameDialog.setTitle("Change Name");
-        final EditText nameInput = new EditText(this);
-        nameInput.setHint("Enter new name");
-        nameDialog.setView(nameInput);
-        nameDialog.setPositiveButton("Confirm",
-                (dialog, which) -> {
-                    progressBar.setVisibility(View.VISIBLE);
-                    String name = nameInput.getText().toString();
+
+
+
+        TextInputEditText nameInput = nameDialog.findViewById(R.id.change_name);
+        Button confirmName = nameDialog.findViewById(R.id.confirm);
+        Button cancelName = nameDialog.findViewById(R.id.cancel);
+        nameDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        nameDialog.getWindow().setLayout(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT);
+
+        confirmName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                if(nameInput.getText().toString().equals("")){
+                    Toast.makeText(ProfileActivity.this, "Name cannot be empty", Toast.LENGTH_LONG).show();
+                    progressBar.setVisibility(View.GONE);
+                }
+                else {
+                    String name = Objects.requireNonNull(nameInput.getText()).toString();
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                             .setDisplayName(name)
@@ -93,108 +112,133 @@ public class ProfileActivity extends AppCompatActivity {
                                 Toast.makeText(ProfileActivity.this, "Name update failed, please try again", Toast.LENGTH_LONG).show();
                                 progressBar.setVisibility(View.GONE);}
                         });
-                });
-
-        nameDialog.setNegativeButton("Cancel", (dialog, which) -> {
-        });
-        AlertDialog nameAlert = nameDialog.create();
-
-        ImageButton changeNameButton = findViewById(R.id.edit_name);
-        changeNameButton.setOnClickListener(v -> {
-            changeNameButton.setImageDrawable(ResourcesCompat.getDrawable(this.getResources(), R.drawable.ic_edit_pressed, null));
-            nameAlert.show();
+                }
+                nameInput.setText("");
+                nameDialog.dismiss();
+            }
         });
 
+            cancelName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    nameInput.setText("");
+                    nameDialog.dismiss();
+                }
+            });
 
-        LinearLayout layout = new LinearLayout(this);
-        layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setGravity(LinearLayout.TEXT_ALIGNMENT_CENTER);
-        final EditText emailInput = new EditText(this);
-        emailInput.setHint("Enter new email");
-        final EditText email2Input = new EditText(this);
-        email2Input.setHint("Confirm email");
-        final EditText passwordInput = new EditText(this);
-        passwordInput.setHint("Enter Password");
-        layout.addView(emailInput);
-        layout.addView(email2Input);
-        layout.addView(passwordInput);
 
-        AlertDialog.Builder emailDialog = new AlertDialog.Builder(this);
+        Button changeNameButton = findViewById(R.id.edit_name);
+        changeNameButton.setOnClickListener(g -> {
+            nameDialog.show();
+        });
+
+
+
+
+
+
+
+
+
+        final Dialog emailDialog = new Dialog(ProfileActivity.this);
+        emailDialog.setContentView(R.layout.self_email_dialog_layout);
         emailDialog.setCancelable(true);
-        emailDialog.setTitle("Change Email");
 
-        passwordInput.setTransformationMethod(PasswordTransformationMethod.getInstance());
-        emailDialog.setView(layout);
-        emailDialog.setPositiveButton("Confirm",
-                new DialogInterface.OnClickListener() {
-                    String email;
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        progressBar.setVisibility(View.VISIBLE);
-                        String newEmail = emailInput.getText().toString();
-                        if (newEmail.equals(email2Input.getText().toString())) {
-                            String password = passwordInput.getText().toString();
-                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                            if (user != null)
-                                email = user.getEmail();
-                            assert email != null;
-                            AuthCredential credential = EmailAuthProvider
-                                    .getCredential(email, password); // Current Login Credentials \\
-                            // Prompt the user to re-provide their sign-in credentials
-                            if (user != null)
-                                user.reauthenticate(credential)
-                                        .addOnCompleteListener(task -> {
-                                            if (task.isSuccessful()) {
-                                                Log.d(TAG, "User re-authenticated.");
-                                                //Now change your email address \\
-                                                //----------------Code for Changing Email Address----------\\
-                                                FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
-                                                if (user1 != null)
-                                                    user1.updateEmail(newEmail)
-                                                            .addOnCompleteListener(task1 -> {
-                                                                if (task1.isSuccessful()) {
-                                                                    Log.d(TAG, "User email address updated.");
-                                                                    String uid = user1.getUid();
 
-                                                                    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                                                                    DatabaseReference databaseReference = firebaseDatabase.getReference();
-                                                                    if (dashboardType == 0)
-                                                                        databaseReference.child("admins").child(uid).child("email").setValue(newEmail);
-                                                                    if (dashboardType == 1)
-                                                                        databaseReference.child("cleaners").child(uid).child("email").setValue(newEmail);
-                                                                    if (dashboardType == 2)
-                                                                        databaseReference.child("users").child(uid).child("email").setValue(newEmail);
-                                                                    textView1.setText(newEmail);
-                                                                    Toast.makeText(ProfileActivity.this, "Email changed to " + newEmail, Toast.LENGTH_LONG).show();
-                                                                    progressBar.setVisibility(View.GONE);
+        TextInputEditText emailInput1 = emailDialog.findViewById(R.id.change_email1);
+        TextInputEditText emailInput2 = emailDialog.findViewById(R.id.change_email2);
+        TextInputEditText passwordInput = emailDialog.findViewById(R.id.password);
+        Button confirmEmail = emailDialog.findViewById(R.id.confirm);
+        Button cancelEmail = emailDialog.findViewById(R.id.cancel);
+        emailDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        emailDialog.getWindow().setLayout(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT);
 
-                                                                } else {
-                                                                    Toast.makeText(ProfileActivity.this, "Error! Please Try again.", Toast.LENGTH_LONG).show();
-                                                                    progressBar.setVisibility(View.GONE);
-                                                                }
-                                                            });
-                                            } else {
-                                                Toast.makeText(ProfileActivity.this, "Please Try again.", Toast.LENGTH_LONG).show();
-                                                progressBar.setVisibility(View.GONE);
-                                            }
+        confirmEmail.setOnClickListener(new View.OnClickListener() {
+            String email;
+            @Override
+            public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                if (emailInput1.getText().toString().equals("") || emailInput2.getText().toString().equals("") || passwordInput.getText().toString().equals("")) {
+                    Toast.makeText(ProfileActivity.this, "Email/Password cannot be empty", Toast.LENGTH_LONG).show();
+                    progressBar.setVisibility(View.GONE);
+                } else {
 
-                                        });
-                        } else {
-                            Toast.makeText(ProfileActivity.this, "Emails don't match! Please Try again.", Toast.LENGTH_LONG).show();
-                            progressBar.setVisibility(View.GONE);
-                        }
+                    String newEmail = emailInput1.getText().toString();
+                    if (newEmail.equals(emailInput2.getText().toString())) {
+                        String password = passwordInput.getText().toString();
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        if (user != null)
+                            email = user.getEmail();
+                        assert email != null;
+                        AuthCredential credential = EmailAuthProvider
+                                .getCredential(email, password); // Current Login Credentials \\
+                        // Prompt the user to re-provide their sign-in credentials
+                        if (user != null)
+                            user.reauthenticate(credential)
+                                    .addOnCompleteListener(task -> {
+                                        if (task.isSuccessful()) {
+                                            Log.d(TAG, "User re-authenticated.");
+                                            //Now change your email address \\
+                                            //----------------Code for Changing Email Address----------\\
+                                            FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
+                                            if (user1 != null)
+                                                user1.updateEmail(newEmail)
+                                                        .addOnCompleteListener(task1 -> {
+                                                            if (task1.isSuccessful()) {
+                                                                Log.d(TAG, "User email address updated.");
+                                                                String uid = user1.getUid();
+
+                                                                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                                                                DatabaseReference databaseReference = firebaseDatabase.getReference();
+                                                                if (dashboardType == 0)
+                                                                    databaseReference.child("admins").child(uid).child("email").setValue(newEmail);
+                                                                if (dashboardType == 1)
+                                                                    databaseReference.child("cleaners").child(uid).child("email").setValue(newEmail);
+                                                                if (dashboardType == 2)
+                                                                    databaseReference.child("users").child(uid).child("email").setValue(newEmail);
+                                                                textView1.setText(newEmail);
+                                                                Toast.makeText(ProfileActivity.this, "Email changed to " + newEmail, Toast.LENGTH_LONG).show();
+                                                                progressBar.setVisibility(View.GONE);
+
+                                                            } else {
+                                                                Toast.makeText(ProfileActivity.this, "Error! Please Try again.", Toast.LENGTH_LONG).show();
+                                                                progressBar.setVisibility(View.GONE);
+                                                            }
+                                                        });
+                                        } else {
+                                            Toast.makeText(ProfileActivity.this, "Please Try again.", Toast.LENGTH_LONG).show();
+                                            progressBar.setVisibility(View.GONE);
+                                        }
+
+                                    });
+                    } else {
+                        Toast.makeText(ProfileActivity.this, "Emails don't match! Please Try again.", Toast.LENGTH_LONG).show();
+                        progressBar.setVisibility(View.GONE);
                     }
-                });
+                }
 
-        emailDialog.setNegativeButton("Cancel", (dialog, which) -> {
+                emailInput1.setText("");
+                emailInput2.setText("");
+                passwordInput.setText("");
+                emailDialog.dismiss();
+            }
         });
-        AlertDialog emailAlert = emailDialog.create();
 
-        ImageButton changeEmailButton = findViewById(R.id.edit_email);
+        cancelEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                emailInput1.setText("");
+                emailInput2.setText("");
+                passwordInput.setText("");
+                emailDialog.dismiss();
+            }
+        });
+
+
+        Button changeEmailButton = findViewById(R.id.edit_email);
         changeEmailButton.setOnClickListener(v -> {
-            changeEmailButton.setImageDrawable(ResourcesCompat.getDrawable(this.getResources(), R.drawable.ic_edit_pressed, null));
-            emailAlert.show();
+            emailDialog.show();
         });
 
         Button backButton = findViewById(R.id.back);

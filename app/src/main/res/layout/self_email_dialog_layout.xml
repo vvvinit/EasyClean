@@ -1,0 +1,102 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_window_background">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_margin="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="New email" >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/change_email1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/custom_edittext"
+            android:inputType="text"
+            android:text=""
+            android:textColor="@color/color3"
+            android:textStyle="bold"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Confirm email" >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/change_email2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/custom_edittext"
+            android:inputType="text"
+            android:text=""
+            android:textColor="@color/color3"
+            android:textStyle="bold"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_margin="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password" >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/custom_edittext"
+            android:inputType="text"
+            android:text=""
+            android:textColor="@color/color3"
+            android:textStyle="bold"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:layout_gravity="center"
+        android:gravity="center">
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_edittext"
+            android:layout_margin="4dp"
+            android:text="CANCEL"
+            style="?android:attr/buttonBarButtonStyle" />
+        <Button
+            android:id="@+id/confirm"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_edittext"
+            android:layout_margin="4dp"
+            android:text="CONFIRM"
+            style="?android:attr/buttonBarButtonStyle" />
+    </LinearLayout>
+
+</LinearLayout>

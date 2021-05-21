@@ -1,33 +1,38 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/parent_layout"
-    android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:weightSum="1">
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent_layout"
+    android:padding="10dp"
+    android:paddingStart="18dp"
+    android:background="@color/color7" >
 
-    <TextView
-        android:maxLines="1"
-        android:gravity="center_horizontal"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="1dp"
-        style="@style/CustomTextView"
-        android:background="@drawable/border_text_view"
-        android:id="@+id/userName"
-        android:layout_width="0dp"
-        android:layout_weight="0.3"
-        android:layout_height="match_parent"
-        android:text="@string/name"/>
+<TextView
+    android:id="@+id/userName"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:maxLines="1"
+    android:text="@string/name"
+    android:textSize="19sp"
+    android:textStyle="bold"
+    android:textColor="@color/black"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:maxLines="1"
-        android:layout_marginEnd="12dp"
-        android:gravity="center_horizontal"
-        style="@style/CustomTextView"
-        android:background="@drawable/border_text_view"
-        android:id="@+id/email"
-        android:layout_width="0dp"
-        android:layout_weight="0.7"
-        android:layout_height="match_parent"
-        android:text="@string/email"/>
+<TextView
+    android:id="@+id/email"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:maxLines="1"
+    android:text="@string/email"
+    android:textSize="14sp"
+    android:textStyle="italic"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/userName"
+    android:textColor="#4d4d4d"/>
 
-</LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,6 +21,7 @@ public class CleanerDashboardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.activity_cleaner_dashboard);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
@@ -47,4 +48,6 @@ public class CleanerDashboardActivity extends AppCompatActivity {
 
 
     }
+
+
 }

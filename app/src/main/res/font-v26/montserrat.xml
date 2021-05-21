@@ -3,9 +3,9 @@
     <font
         android:fontStyle="normal"
         android:fontWeight="400"
-        android:font="@font/gothicb" />
+        android:font="@font/montserrat_regular" />
     <font
         android:fontStyle="italic"
         android:fontWeight="400"
-        android:font="@font/gothicbi" />
+        android:font="@font/montserrat_italic" />
 </font-family>

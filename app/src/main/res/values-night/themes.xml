@@ -13,7 +13,7 @@
         <item name="colorSecondary">@color/color1</item>
         <item name="android:colorAccent">@color/color6</item>
         <item name="android:navigationBarColor">@color/color3</item>
-        <item name="android:fontFamily">@font/century</item>
+        <item name="android:fontFamily">@font/montserrat</item>
         <!-- Customize your theme here. -->
     </style>
 </resources>

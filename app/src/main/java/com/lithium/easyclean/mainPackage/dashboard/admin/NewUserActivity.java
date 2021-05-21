@@ -42,6 +42,8 @@ public class NewUserActivity extends AppCompatActivity {
             TextInputEditText passwordInput = findViewById(R.id.editPasswordValue);
             TextInputEditText nameInput = findViewById(R.id.editTextName);
             TextInputEditText emailInput = findViewById(R.id.editEmailValue);
+
+
             if (!Objects.requireNonNull(nameInput.getText()).toString().isEmpty() && !Objects.requireNonNull(passwordInput.getText()).toString().isEmpty() && !Objects.requireNonNull(emailInput.getText()).toString().isEmpty()) {
                 name = Objects.requireNonNull(nameInput.getText()).toString();
                 password = Objects.requireNonNull(passwordInput.getText()).toString();

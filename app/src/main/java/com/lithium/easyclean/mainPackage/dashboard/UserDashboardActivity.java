@@ -21,10 +21,12 @@ public class UserDashboardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.activity_user_dashboard);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         assert firebaseUser != null;
+
 
         ImageButton profileButton = findViewById(R.id.profile_button);
         profileButton.setOnClickListener(v -> {
@@ -37,6 +39,9 @@ public class UserDashboardActivity extends AppCompatActivity {
         });
 
 
+
+
+
         Button button = findViewById(R.id.sign_out_button);
         button.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
@@ -45,4 +50,5 @@ public class UserDashboardActivity extends AppCompatActivity {
             finish();
         });
     }
+
 }

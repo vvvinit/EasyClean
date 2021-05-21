@@ -33,6 +33,7 @@ public class ViewToiletActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.activity_view_toilet);
         ProgressBar progressBar = findViewById(R.id.progressBar1);
         Intent i = getIntent();
