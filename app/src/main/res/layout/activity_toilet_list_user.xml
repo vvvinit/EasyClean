@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color7"
-    tools:context=".mainPackage.dashboard.admin.UserListActivity"
+    tools:context=".mainPackage.dashboard.user.ToiletListUserActivity"
     android:orientation="vertical">
 
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_margin="16dp"
         android:layout_marginTop="1dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:id="@+id/layoutUsernameInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,23 +31,17 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <ListView
-        android:divider="@color/color3"
-        android:dividerHeight="0.5dp"
+        android:layout_margin="7dp"
+        android:divider="@color/color7"
+        android:dividerHeight="2dp"
         android:padding="2dp"
         android:background="@drawable/border_text_view"
-        android:id="@+id/user_list_view"
+        android:id="@+id/toilet_list_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
-    <Button
-        android:id="@+id/add_user_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/custom_edittext"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:text="@string/plus" />
+
 
     <Button
         android:layout_margin="16dp"

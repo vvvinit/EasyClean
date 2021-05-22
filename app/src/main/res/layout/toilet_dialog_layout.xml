@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_window_background">
+
+    <TextView
+        android:layout_margin="20dp"
+        android:id="@+id/turbidity_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:maxLines="1"
+        android:text="clean"
+        android:textStyle="italic"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <Button
+        android:id="@+id/cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_edittext"
+        android:layout_margin="4dp"
+        android:text="CLOSE"
+        style="?android:attr/buttonBarButtonStyle" />
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

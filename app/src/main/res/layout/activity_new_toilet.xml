@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".mainPackage.dashboard.admin.NewToiletActivity"
+    tools:context=".mainPackage.dashboard.admin.NewToiletAdminActivity"
     android:background="@color/color7">
 
 
@@ -52,6 +52,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layoutLocationInput"
             android:layout_width="match_parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_height="wrap_content"
             android:hint="Location">
 
@@ -69,6 +70,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layoutLongitudeInput"
             android:layout_width="match_parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_height="wrap_content"
             android:hint="Longitude">
 
@@ -86,6 +88,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layoutLatitudeInput"
             android:layout_width="match_parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_height="wrap_content"
             android:hint="Latitude">
 
@@ -103,6 +106,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layoutCleanerInput"
             android:layout_width="match_parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_height="wrap_content"
             android:hint="Cleaner ID">
 

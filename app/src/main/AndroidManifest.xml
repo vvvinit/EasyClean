@@ -9,9 +9,12 @@
         android:roundIcon="@drawable/ic_launcher_foreground"
         android:supportsRtl="true"
         android:theme="@style/Theme.EasyClean">
-        <activity android:name=".mainPackage.dashboard.admin.NewToiletActivity" />
-        <activity android:name=".mainPackage.dashboard.admin.ViewToiletActivity" />
-        <activity android:name=".mainPackage.dashboard.admin.ToiletListActivity" />
+        <activity android:name=".mainPackage.dashboard.user.ToiletListUserActivity" />
+        <activity android:name=".mainPackage.dashboard.cleaner.ViewToiletCleanerActivity" />
+        <activity android:name=".mainPackage.dashboard.cleaner.ToiletListCleanerActivity" />
+        <activity android:name=".mainPackage.dashboard.admin.NewToiletAdminActivity" />
+        <activity android:name=".mainPackage.dashboard.admin.ViewToiletAdminActivity" />
+        <activity android:name=".mainPackage.dashboard.admin.ToiletListAdminActivity" />
         <activity android:name=".mainPackage.dashboard.admin.ViewUserActivity" />
         <activity android:name=".mainPackage.dashboard.ProfileActivity" />
         <activity android:name=".mainPackage.dashboard.admin.NewAdminActivity" />

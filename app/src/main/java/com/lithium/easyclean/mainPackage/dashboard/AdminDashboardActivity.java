@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.lithium.easyclean.R;
 import com.lithium.easyclean.mainPackage.dashboard.admin.AdminListActivity;
 import com.lithium.easyclean.mainPackage.dashboard.admin.CleanerListActivity;
-import com.lithium.easyclean.mainPackage.dashboard.admin.ToiletListActivity;
+import com.lithium.easyclean.mainPackage.dashboard.admin.ToiletListAdminActivity;
 import com.lithium.easyclean.mainPackage.dashboard.admin.UserListActivity;
 import com.lithium.easyclean.mainPackage.start.EnterEmailActivity;
 
@@ -69,7 +69,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         });
         Button button4 = findViewById(R.id.toilets_list_button);
         button4.setOnClickListener(v -> {
-            Intent intent = new Intent(AdminDashboardActivity.this, ToiletListActivity.class);
+            Intent intent = new Intent(AdminDashboardActivity.this, ToiletListAdminActivity.class);
             startActivity(intent);
 
         });

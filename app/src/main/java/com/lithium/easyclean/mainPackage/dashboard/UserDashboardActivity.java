@@ -11,6 +11,7 @@ import androidx.core.content.res.ResourcesCompat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.lithium.easyclean.R;
+import com.lithium.easyclean.mainPackage.dashboard.user.ToiletListUserActivity;
 import com.lithium.easyclean.mainPackage.start.EnterEmailActivity;
 
 public class UserDashboardActivity extends AppCompatActivity {
@@ -38,10 +39,6 @@ public class UserDashboardActivity extends AppCompatActivity {
             finish();
         });
 
-
-
-
-
         Button button = findViewById(R.id.sign_out_button);
         button.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
@@ -50,6 +47,15 @@ public class UserDashboardActivity extends AppCompatActivity {
             overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             finish();
         });
+
+        Button button4 = findViewById(R.id.toilets_list_button);
+        button4.setOnClickListener(v -> {
+            Intent intent = new Intent(UserDashboardActivity.this, ToiletListUserActivity.class);
+            startActivity(intent);
+
+        });
+
+
     }
 
 }

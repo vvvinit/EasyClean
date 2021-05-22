@@ -11,6 +11,7 @@ import androidx.core.content.res.ResourcesCompat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.lithium.easyclean.R;
+import com.lithium.easyclean.mainPackage.dashboard.cleaner.ToiletListCleanerActivity;
 import com.lithium.easyclean.mainPackage.start.EnterEmailActivity;
 
 public class CleanerDashboardActivity extends AppCompatActivity {
@@ -26,6 +27,7 @@ public class CleanerDashboardActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         assert firebaseUser != null;
+
 
         ImageButton profileButton = findViewById(R.id.profile_button);
         profileButton.setOnClickListener(v -> {
@@ -45,6 +47,13 @@ public class CleanerDashboardActivity extends AppCompatActivity {
             startActivity(intent);
             overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             finish();
+        });
+
+        Button button4 = findViewById(R.id.toilets_list_button);
+        button4.setOnClickListener(v -> {
+            Intent intent = new Intent(CleanerDashboardActivity.this, ToiletListCleanerActivity.class);
+            startActivity(intent);
+
         });
 
 

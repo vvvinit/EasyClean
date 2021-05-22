@@ -34,9 +34,9 @@ import com.lithium.easyclean.mainPackage.start.User;
 
 import java.util.ArrayList;
 
-public class ViewToiletActivity extends AppCompatActivity {
+public class ViewToiletAdminActivity extends AppCompatActivity {
 
-    private static final String TAG = "ViewToiletActivity";
+    private static final String TAG = "ViewToiletAdminActivity";
     int type;
 
     @SuppressLint("SetTextI18n")
@@ -44,7 +44,7 @@ public class ViewToiletActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-        setContentView(R.layout.activity_view_toilet);
+        setContentView(R.layout.activity_view_toilet_admin);
         ProgressBar progressBar = findViewById(R.id.progressBar1);
         Intent i = getIntent();
         Toilet toilet = (Toilet) i.getSerializableExtra("toilet");
@@ -72,7 +72,7 @@ public class ViewToiletActivity extends AppCompatActivity {
                 if (location != null) {
                     vCoordinates.setText(location.longitude+" - "+location.latitude);
                 } else {
-                    Toast.makeText(ViewToiletActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewToiletAdminActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -109,9 +109,9 @@ public class ViewToiletActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(String key, DatabaseError error) {
                                 if (error != null) {
-                                    Toast.makeText(ViewToiletActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ViewToiletAdminActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Intent i12 =  new Intent(ViewToiletActivity.this, ToiletListActivity.class);
+                                    Intent i12 =  new Intent(ViewToiletAdminActivity.this, ToiletListAdminActivity.class);
                                     startActivity(i12);
                                     finish();
                                 }
@@ -119,7 +119,7 @@ public class ViewToiletActivity extends AppCompatActivity {
 
                         });
                     } else {
-                        Toast.makeText(ViewToiletActivity.this, "Failed to remove", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ViewToiletAdminActivity.this, "Failed to remove", Toast.LENGTH_SHORT).show();
                         progressBar.setVisibility(View.GONE);
                     }
                 };
@@ -127,7 +127,7 @@ public class ViewToiletActivity extends AppCompatActivity {
 
         Button backButton = findViewById(R.id.back);
         backButton.setOnClickListener(v -> {
-            Intent i12 =  new Intent(ViewToiletActivity.this, ToiletListActivity.class);
+            Intent i12 =  new Intent(ViewToiletAdminActivity.this, ToiletListAdminActivity.class);
             startActivity(i12);
             finish();
         });
@@ -145,13 +145,13 @@ public class ViewToiletActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final Dialog selectCleanerDialog = new Dialog(ViewToiletActivity.this);
+                final Dialog selectCleanerDialog = new Dialog(ViewToiletAdminActivity.this);
                 selectCleanerDialog.setContentView(R.layout.layout_select_cleaner);
                 selectCleanerDialog.setCancelable(false);
 
                 ArrayList<User> list = new ArrayList<>();
 
-                SelectCleanerAdapter adapter = new SelectCleanerAdapter(ViewToiletActivity.this, list);
+                SelectCleanerAdapter adapter = new SelectCleanerAdapter(ViewToiletAdminActivity.this, list);
                 ListView listView = selectCleanerDialog.findViewById(R.id.cleaner_select_list_view);
                 listView.setAdapter(adapter);
 
@@ -230,7 +230,7 @@ public class ViewToiletActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         // Here you want to show the user a dialog box
-        Intent i = new Intent(ViewToiletActivity.this, ToiletListActivity.class);
+        Intent i = new Intent(ViewToiletAdminActivity.this, ToiletListAdminActivity.class);
         startActivity(i);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         finish();

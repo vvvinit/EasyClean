@@ -28,5 +28,6 @@
     <string name="users">USERS</string>
     <string name="cleaners">CLEANERS</string>
     <string name="admins">ADMINS</string>
+    <string name="TURBIDITY_THRESHOLD">50</string>
 
 </resources>

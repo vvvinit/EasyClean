@@ -11,6 +11,7 @@ tools:context=".mainPackage.dashboard.admin.CleanerListActivity"
     <com.google.android.material.textfield.TextInputLayout
         android:layout_margin="16dp"
         android:layout_marginTop="1dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:id="@+id/layoutUsernameInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

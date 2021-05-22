@@ -32,7 +32,7 @@ import com.lithium.easyclean.mainPackage.start.User;
 
 import java.util.ArrayList;
 
-public class NewToiletActivity extends AppCompatActivity {
+public class NewToiletAdminActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class NewToiletActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             setContentView(R.layout.activity_new_toilet);
-        Animation rotation = AnimationUtils.loadAnimation(NewToiletActivity.this, R.anim.rotate);
+        Animation rotation = AnimationUtils.loadAnimation(NewToiletAdminActivity.this, R.anim.rotate);
         rotation.setFillAfter(true);
             Button selectCleaner = findViewById(R.id.select_cleaner);
 
@@ -48,13 +48,13 @@ public class NewToiletActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    final Dialog selectCleanerDialog = new Dialog(NewToiletActivity.this);
+                    final Dialog selectCleanerDialog = new Dialog(NewToiletAdminActivity.this);
                     selectCleanerDialog.setContentView(R.layout.layout_select_cleaner);
                     selectCleanerDialog.setCancelable(false);
 
                     ArrayList<User> list = new ArrayList<>();
 
-                    SelectCleanerAdapter adapter = new SelectCleanerAdapter(NewToiletActivity.this, list);
+                    SelectCleanerAdapter adapter = new SelectCleanerAdapter(NewToiletAdminActivity.this, list);
                     ListView listView = selectCleanerDialog.findViewById(R.id.cleaner_select_list_view);
                     listView.setAdapter(adapter);
 
@@ -140,16 +140,16 @@ public class NewToiletActivity extends AppCompatActivity {
                     }
                 }, 1000);
                 if(location.getText().toString().equals("")){
-                    Toast.makeText(NewToiletActivity.this, "Please enter location name", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewToiletAdminActivity.this, "Please enter location name", Toast.LENGTH_SHORT).show();
                 }
                 else if(longitude.getText().toString().equals("")){
-                    Toast.makeText(NewToiletActivity.this, "Please enter longitude", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewToiletAdminActivity.this, "Please enter longitude", Toast.LENGTH_SHORT).show();
                 }
                 else if(latitude.getText().toString().equals("")){
-                    Toast.makeText(NewToiletActivity.this, "Please enter latitude", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewToiletAdminActivity.this, "Please enter latitude", Toast.LENGTH_SHORT).show();
                 }
                 else if(cleanerID.getText().toString().equals("")){
-                    Toast.makeText(NewToiletActivity.this, "Please select a cleaner", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewToiletAdminActivity.this, "Please select a cleaner", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     try {
@@ -161,7 +161,7 @@ public class NewToiletActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(String key, DatabaseError error) {
                                 if (error != null) {
-//                                    Toast.makeText(NewToiletActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(NewToiletAdminActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                                 } else {
                                     databaseReference1.setValue(new Toilet(databaseReference1.getKey(),location.getText().toString(), cleanerID.getText().toString(),100));
                                 }
@@ -171,11 +171,11 @@ public class NewToiletActivity extends AppCompatActivity {
 
                     }
                     catch (Exception e){
-//                        Toast.makeText(NewToiletActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(NewToiletAdminActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
                         if(e instanceof IllegalArgumentException)
-                        Toast.makeText(NewToiletActivity.this, "Invalid longitude/latitude", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NewToiletAdminActivity.this, "Invalid longitude/latitude", Toast.LENGTH_SHORT).show();
                         else
-                            Toast.makeText(NewToiletActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(NewToiletAdminActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -188,7 +188,7 @@ public class NewToiletActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         // Here you want to show the user a dialog box
-        Intent i = new Intent(NewToiletActivity.this, ToiletListActivity.class);
+        Intent i = new Intent(NewToiletAdminActivity.this, ToiletListAdminActivity.class);
         startActivity(i);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         finish();

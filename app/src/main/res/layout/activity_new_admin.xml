@@ -52,6 +52,7 @@ android:background="@color/color7">
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layoutNameInput"
         android:layout_width="match_parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_height="wrap_content"
         android:hint="Full Name">
 
@@ -69,6 +70,7 @@ android:background="@color/color7">
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layoutEmailInput"
         android:layout_width="match_parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_height="wrap_content"
         android:hint="Email">
 
@@ -88,6 +90,7 @@ android:background="@color/color7">
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layoutPasswordInput"
         android:layout_width="match_parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_height="wrap_content"
         android:hint="@string/password"
         app:passwordToggleEnabled="true">

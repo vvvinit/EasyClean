@@ -5,7 +5,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:background="@color/color7"
-    tools:context=".mainPackage.dashboard.admin.ViewToiletActivity">
+    tools:context=".mainPackage.dashboard.admin.ViewToiletAdminActivity">
 
 <ProgressBar
     android:id="@+id/progressBar1"

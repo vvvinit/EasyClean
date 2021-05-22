@@ -10,6 +10,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_margin="8dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="New email" >
@@ -31,6 +32,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Confirm email" >
@@ -51,6 +53,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_margin="8dp"
         android:layout_width="match_parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_height="wrap_content"
         android:hint="Password" >
 
