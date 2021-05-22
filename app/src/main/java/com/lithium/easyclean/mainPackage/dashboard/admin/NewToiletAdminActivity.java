@@ -164,6 +164,9 @@ public class NewToiletAdminActivity extends AppCompatActivity {
 //                                    Toast.makeText(NewToiletAdminActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                                 } else {
                                     databaseReference1.setValue(new Toilet(databaseReference1.getKey(),location.getText().toString(), cleanerID.getText().toString(),100));
+                                    Intent intent = new Intent(NewToiletAdminActivity.this, ToiletListAdminActivity.class);
+                                    startActivity(intent);
+                                    finish();
                                 }
                             }
 
@@ -173,7 +176,7 @@ public class NewToiletAdminActivity extends AppCompatActivity {
                     catch (Exception e){
 //                        Toast.makeText(NewToiletAdminActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
                         if(e instanceof IllegalArgumentException)
-                        Toast.makeText(NewToiletAdminActivity.this, "Invalid longitude/latitude", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(NewToiletAdminActivity.this, "Invalid longitude/latitude", Toast.LENGTH_SHORT).show();
                         else
                             Toast.makeText(NewToiletAdminActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                     }
