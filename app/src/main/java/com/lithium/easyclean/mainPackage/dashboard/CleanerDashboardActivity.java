@@ -43,6 +43,7 @@ public class CleanerDashboardActivity extends AppCompatActivity {
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(CleanerDashboardActivity.this, EnterEmailActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             finish();
         });
 

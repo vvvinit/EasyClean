@@ -1,0 +1,24 @@
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="100dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="@drawable/dialog_window_background">
+
+        <ListView
+            android:divider="@color/color3"
+            android:dividerHeight="0.5dp"
+            android:padding="2dp"
+            android:background="@drawable/dialog_window_background"
+            android:id="@+id/cleaner_select_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>

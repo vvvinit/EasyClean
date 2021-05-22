@@ -427,6 +427,7 @@ final Dialog nameDialog = new Dialog(ViewUserActivity.this);
         else if (type == 2) i = new Intent(ViewUserActivity.this, CleanerListActivity.class);
         else if (type == 1) i = new Intent(ViewUserActivity.this, AdminListActivity.class);
         startActivity(i);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         finish();
     }
 }

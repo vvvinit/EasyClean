@@ -5,22 +5,19 @@ public class Toilet implements Serializable {
     private String cleaner;
     private int turbidity;
     private String id = null;
-    private String name;
+    private String location = null;
 
     public Toilet(){
 
     }
-    public Toilet(String id, String name, String cleaner, int turbidity){
-        this.id = id;
-        this.name = name;
-        this.cleaner = cleaner;
-        this.turbidity = turbidity;
+
+    public Toilet(String id, String location, String cleaner, int turbidity){
+        setId(id);
+        setLocation(location);
+        setCleaner(cleaner);
+        setTurbidity(turbidity);
     }
-    public Toilet(String id, String name, int turbidity){
-        this.id = id;
-        this.name = name;
-        this.turbidity = turbidity;
-    }
+
 
     public int getTurbidity() {
         return turbidity;
@@ -34,8 +31,12 @@ public class Toilet implements Serializable {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public void setCleaner(String cleaner) {

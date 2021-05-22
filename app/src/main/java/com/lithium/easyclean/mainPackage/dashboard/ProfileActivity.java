@@ -265,6 +265,7 @@ public class ProfileActivity extends AppCompatActivity {
         if (dashboardType == 2)
             intent = new Intent(ProfileActivity.this, UserDashboardActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         finish();
     }
 }

@@ -5,7 +5,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -19,7 +18,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.annotations.Nullable;
 import com.lithium.easyclean.R;
 import com.lithium.easyclean.mainPackage.dashboard.ToiletsAdapter;
-import com.lithium.easyclean.mainPackage.dashboard.ViewToiletActivity;
 import com.lithium.easyclean.mainPackage.start.Toilet;
 
 import java.util.ArrayList;
@@ -37,13 +35,15 @@ public class ToiletListActivity extends AppCompatActivity {
             overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         });
 
-//        Button addToiletButton = findViewById(R.id.add_toilet_button);
-//        addToiletButton.setOnClickListener(v -> {
-//            Intent intent = new Intent(ToiletListActivity.this, NewToiletActivity.class);
-//            startActivity(intent);
-//            finish();
-//        });
-    setListView();
+        Button addToiletButton = findViewById(R.id.add_toilet_button);
+        addToiletButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ToiletListActivity.this, NewToiletActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+            setListView();
+
 
     }
 
@@ -51,11 +51,13 @@ public class ToiletListActivity extends AppCompatActivity {
         ArrayList<Toilet> list = new ArrayList<>();
 
         ToiletsAdapter adapter = new ToiletsAdapter(this, list);
+
+
         ListView listView = findViewById(R.id.toilet_list_view);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener((arg0, view, position, id) -> {
             Toilet toilet = (Toilet) arg0.getItemAtPosition(position);
-                Toast.makeText(ToiletListActivity.this, toilet.getName(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ToiletListActivity.this, toilet.getId(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(ToiletListActivity.this, ViewToiletActivity.class);
             intent.putExtra("toilet", toilet);
             startActivity(intent);
@@ -73,6 +75,7 @@ public class ToiletListActivity extends AppCompatActivity {
                 assert toilet != null;
                 toilet.setId(snapshot.getKey());
                 list.add(toilet);
+
                 adapter.notifyDataSetChanged();
             }
 
@@ -111,7 +114,8 @@ public class ToiletListActivity extends AppCompatActivity {
 
             }
         };
-        scoreRef.addChildEventListener(mChildEventListener);
+        scoreRef.orderByChild("turbidity").addChildEventListener(mChildEventListener);
+        adapter.notifyDataSetChanged();
 //        scoreRef.addListenerForSingleValueEvent(eventListener);
     }
 

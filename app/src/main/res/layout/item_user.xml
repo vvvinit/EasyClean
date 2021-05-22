@@ -1,12 +1,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_height="wrap_content"
+
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/parent_layout"
     android:padding="10dp"
     android:paddingStart="18dp"
-    android:background="@color/color7" >
+    android:background="@drawable/list_item_background" >
 
 <TextView
     android:id="@+id/userName"

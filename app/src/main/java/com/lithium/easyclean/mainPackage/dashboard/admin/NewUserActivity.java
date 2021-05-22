@@ -2,6 +2,9 @@ package com.lithium.easyclean.mainPackage.dashboard.admin;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -32,12 +35,19 @@ public class NewUserActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.activity_new_user);
-
-
+        Animation rotation = AnimationUtils.loadAnimation(NewUserActivity.this, R.anim.rotate);
+        rotation.setFillAfter(true);
         ImageButton signUp = findViewById(R.id.sign_up_button);
         signUp.setOnClickListener(v -> {
-
+            signUp.startAnimation(rotation);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    signUp.clearAnimation();
+                }
+            }, 1000);
 
             TextInputEditText passwordInput = findViewById(R.id.editPasswordValue);
             TextInputEditText nameInput = findViewById(R.id.editTextName);
@@ -48,7 +58,7 @@ public class NewUserActivity extends AppCompatActivity {
                 name = Objects.requireNonNull(nameInput.getText()).toString();
                 password = Objects.requireNonNull(passwordInput.getText()).toString();
                 email = Objects.requireNonNull(emailInput.getText()).toString();
-                Toast.makeText(NewUserActivity.this, email + password, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(NewUserActivity.this, email + password, Toast.LENGTH_SHORT).show();
                 FirebaseOptions options = new FirebaseOptions.Builder()
                         .setApplicationId("1:16498016959:android:f5512cb564ebd13fff7c0a") // Required for Analytics.
                         .setApiKey("AIzaSyB9dqPlUm9hC6dUecxyV5KiGwlKIf1YIJQ") // Required for Auth.
@@ -121,6 +131,7 @@ public class NewUserActivity extends AppCompatActivity {
         // Here you want to show the user a dialog box
         Intent i = new Intent(NewUserActivity.this, UserListActivity.class);
         startActivity(i);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         finish();
     }
 }

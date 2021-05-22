@@ -3,6 +3,9 @@ package com.lithium.easyclean.mainPackage.dashboard.admin;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -38,18 +41,28 @@ public class NewAdminActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_admin);
 
 
+        Animation rotation = AnimationUtils.loadAnimation(NewAdminActivity.this, R.anim.rotate);
+        rotation.setFillAfter(true);
         ImageButton signUp = findViewById(R.id.sign_up_button);
         signUp.setOnClickListener(v -> {
 
-
+            signUp.startAnimation(rotation);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    signUp.clearAnimation();
+                }
+            }, 1000);
             TextInputEditText passwordInput = findViewById(R.id.editPasswordValue);
             TextInputEditText nameInput = findViewById(R.id.editTextName);
             TextInputEditText emailInput = findViewById(R.id.editEmailValue);
+
+
             if (!Objects.requireNonNull(nameInput.getText()).toString().isEmpty() && !Objects.requireNonNull(passwordInput.getText()).toString().isEmpty() && !Objects.requireNonNull(emailInput.getText()).toString().isEmpty()) {
                 name = Objects.requireNonNull(nameInput.getText()).toString();
                 password = Objects.requireNonNull(passwordInput.getText()).toString();
                 email = Objects.requireNonNull(emailInput.getText()).toString();
-                Toast.makeText(NewAdminActivity.this, email + password, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(NewAdminActivity.this, email + password, Toast.LENGTH_SHORT).show();
                 FirebaseOptions options = new FirebaseOptions.Builder()
                         .setApplicationId("1:16498016959:android:f5512cb564ebd13fff7c0a") // Required for Analytics.
                         .setApiKey("AIzaSyB9dqPlUm9hC6dUecxyV5KiGwlKIf1YIJQ") // Required for Auth.
@@ -121,6 +134,7 @@ public class NewAdminActivity extends AppCompatActivity {
         // Here you want to show the user a dialog box
         Intent i = new Intent(NewAdminActivity.this, AdminListActivity.class);
         startActivity(i);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         finish();
     }
 }
